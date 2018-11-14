@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--This ensures only one item can be checked of the items in the group -->
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/StartScreen"
+            android:checked="false"
+            android:title="@string/Welcome" />
+
+        <item
+            android:id="@+id/CreateNote"
+            android:checked="false"
+            android:title="@string/Create_note" />
+
+        <item
+            android:id="@+id/MyNotes"
+            android:checked="false"
+            android:title="@string/My_notes" />
+
+    </group>
+
+</menu>

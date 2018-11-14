@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">ExamDiaryApp</string>
+    <string name="Welcome">Home</string>
+    <string name="Create_note">Create note</string>
+    <string name="My_notes">My notes</string>
+    <string name="Settings">Settings</string>
+    <string name="openDrawer">open</string>
+    <string name="closeDrawer">close</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
