@@ -1,7 +1,9 @@
 package com.example.nicholai.examdiaryapp;
 
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +16,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.Objects;
 
@@ -24,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
     //empty as default
     private String fragmentTitle = "";
+
+    //Pref result code
+    private final int RESULT_CODE_PREFERENCES = 1;
 
     //Ids of the different drawer fragments
     public static final int welcomeID = 1;
@@ -38,12 +45,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        boolean isDarkTheme = SettingsFragment.IsDarkState(this);
+        updateUI(isDarkTheme);
 
         //check to see if the key 'fragment' exists, if it does retrieve the key
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey("fragment")) {
                 currentFragment = savedInstanceState.getInt("fragment");
-                Log.d("savedfragment", "fragment : " + currentFragment);
             }
 
         }
@@ -121,20 +129,20 @@ public class MainActivity extends AppCompatActivity {
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = findViewById(R.id.drawer);
 
-        //Showing how to override onDrawerClosed and onDrawerOpened
-        //although in this app we actually dont do anything in there
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer){
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 // Code here will be triggered once the drawer closes
                 super.onDrawerClosed(drawerView);
+                //unused
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
                 // Code here will be triggered once the drawer open
                 super.onDrawerOpened(drawerView);
+                //unused
             }
         };
 
@@ -169,6 +177,14 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit(); //set starting fragment
     }
 
+    //This method update text views, if needed later on, call in oncreate and onactivityresult
+    public void updateUI(boolean darkTheme)
+    {
+        if(darkTheme){
+        setTheme(R.style.Dark);
+        }
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         //save current fragment on device rotation
@@ -185,12 +201,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode==RESULT_CODE_PREFERENCES) //this code means we came back from settings
+        {
+            boolean isDarkTheme = SettingsFragment.IsDarkState(this);
+
+            updateUI(isDarkTheme);
+            //Display snackbar or toast here to notify user about change
+
+
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.frame, new SettingsFragment()).commit();
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivityForResult(intent,RESULT_CODE_PREFERENCES);
+
             return true;
         }
 

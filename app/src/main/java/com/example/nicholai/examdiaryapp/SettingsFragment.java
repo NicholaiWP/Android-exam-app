@@ -3,43 +3,28 @@ package com.example.nicholai.examdiaryapp;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends PreferenceFragment {
 
-    MainActivity m;
-
-    public SettingsFragment() {
-        // Required empty public constructor
-    }
+    private static String DARK_STATE = "Dark";
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
-
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //add layout from 'prefs' in the xml directory folder
+        addPreferencesFromResource(R.xml.prefs);
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        if (context instanceof MainActivity){
-            m = (MainActivity) context;
-        }
-
+    public static boolean IsDarkState(Context context)
+    {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(DARK_STATE, false);
     }
-
 
 }
