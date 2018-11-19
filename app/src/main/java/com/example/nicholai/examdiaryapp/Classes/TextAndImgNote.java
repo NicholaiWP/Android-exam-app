@@ -1,4 +1,4 @@
-package com.example.nicholai.examdiaryapp;
+package com.example.nicholai.examdiaryapp.Classes;
 
 public class TextAndImgNote extends Note {
 

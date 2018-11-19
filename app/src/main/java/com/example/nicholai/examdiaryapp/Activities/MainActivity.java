@@ -1,4 +1,4 @@
-package com.example.nicholai.examdiaryapp;
+package com.example.nicholai.examdiaryapp.Activities;
 
 
 import android.content.Intent;
@@ -16,9 +16,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.nicholai.examdiaryapp.Fragments.CreateNoteFragment;
+import com.example.nicholai.examdiaryapp.Fragments.MyNotesFragment;
+import com.example.nicholai.examdiaryapp.Fragments.SettingsFragment;
+import com.example.nicholai.examdiaryapp.Fragments.WelcomeFragment;
+import com.example.nicholai.examdiaryapp.R;
+
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,15 +43,19 @@ public class MainActivity extends AppCompatActivity {
     public static final int createNoteID = 3;
 
     //variable to control the fragment switches
+  Toolbar toolbar;
     int currentFragment = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         boolean isDarkTheme = SettingsFragment.IsDarkState(this);
+        //Needs to update theme before setting content view to avoid content view being set first
         updateUI(isDarkTheme);
+        setContentView(R.layout.activity_main);
+
+
 
         //check to see if the key 'fragment' exists, if it does retrieve the key
         if (savedInstanceState != null) {
@@ -61,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.navigation_view);
 
         //toolbar variable
-        Toolbar toolbar = findViewById(R.id.toolbar);
+         toolbar = findViewById(R.id.toolbar);
 
 
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
@@ -181,7 +190,9 @@ public class MainActivity extends AppCompatActivity {
     public void updateUI(boolean darkTheme)
     {
         if(darkTheme){
-        setTheme(R.style.Dark);
+
+            Log.d("ThemeChange", "updateUI: theme changed ");
+            setTheme(R.style.AppThemeDark);
         }
     }
 
@@ -207,10 +218,9 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode==RESULT_CODE_PREFERENCES) //this code means we came back from settings
         {
             boolean isDarkTheme = SettingsFragment.IsDarkState(this);
-
+            Log.d("checkOnActivityResult", "onActivityResult: ");
             updateUI(isDarkTheme);
             //Display snackbar or toast here to notify user about change
-
 
         }
     }
@@ -221,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-                Intent intent = new Intent(this, SettingsActivity.class);
+                Intent intent = new Intent(this, PreferenceActivity.class);
                 startActivityForResult(intent,RESULT_CODE_PREFERENCES);
 
             return true;

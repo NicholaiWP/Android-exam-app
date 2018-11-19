@@ -4,7 +4,8 @@
 
     <SwitchPreference
         android:defaultValue="false"
-        android:key="DARK_STATE"
+        android:key="Dark"
+        android:id="@+id/themeToggler"
         android:summary="@string/Theme_explanation"
         android:title="Dark theme" />
 
