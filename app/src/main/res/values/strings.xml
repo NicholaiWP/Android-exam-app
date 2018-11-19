@@ -10,4 +10,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="notetitle">noteTitle</string>
+    <string name="enter_title_here">enter title here</string>
+    <string name="enter_body_text_here">enter body text here</string>
 </resources>
