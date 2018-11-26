@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nicholai.examdiaryapp.Fragments.CreateNoteFragment;
@@ -25,6 +27,8 @@ import com.example.nicholai.examdiaryapp.Fragments.WelcomeFragment;
 import com.example.nicholai.examdiaryapp.R;
 
 import java.util.Objects;
+
+import static android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
     public static final int showNotesID = 2;
     public static final int createNoteID = 3;
 
+    private Toolbar toolbar;
+
     //variable to control the fragment switches
-  Toolbar toolbar;
     int currentFragment = 0;
 
     @Override
@@ -54,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
         //Needs to update theme before setting content view to avoid content view being set first
         updateUI(isDarkTheme);
         setContentView(R.layout.activity_main);
-
-
 
         //check to see if the key 'fragment' exists, if it does retrieve the key
         if (savedInstanceState != null) {
@@ -73,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
          toolbar = findViewById(R.id.toolbar);
 
 
+
+
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -80,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     // This method will trigger on item Click of navigation menu
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
 
                         //Checking if the item is in checked state or not, if not make it in checked state
                         if (menuItem.isChecked())
@@ -97,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
                             case R.id.StartScreen:
                             fragment = new WelcomeFragment();
-                            fragmentTitle = getResources().getString(R.string.Welcome);
+                            fragmentTitle = getResources().getString(R.string.app_name);
                             currentFragment = welcomeID;
                                 break;
 
@@ -113,9 +119,16 @@ public class MainActivity extends AppCompatActivity {
                                 fragmentTitle = getResources().getString(R.string.Create_note);
                                 break;
 
+                            case R.id.SignOut:
+                                //TODO add sign out functionality from authentication
 
                             default:
-                                Toast.makeText(getApplicationContext(), "Something is Wrong", Toast.LENGTH_SHORT).show();
+                                if(menuItem.getItemId() == R.id.SignOut){
+                                    Toast.makeText(getApplicationContext(), "log user out", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "Something is Wrong", Toast.LENGTH_SHORT).show();
+                                }
 
                                 return true;
 
@@ -133,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
 
-                });  //end of nagivation drawer code
+                });  //end of navigation drawer code
 
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = findViewById(R.id.drawer);
@@ -168,15 +181,18 @@ public class MainActivity extends AppCompatActivity {
         if(currentFragment == welcomeID){
             fragmentTransaction.replace(R.id.frame, new WelcomeFragment());
             Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.Welcome));
+
         }
        else  if(currentFragment == showNotesID){
             fragmentTransaction.replace(R.id.frame, new MyNotesFragment());
             Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.My_notes));
 
+
         }
         else if(currentFragment == createNoteID){
              fragmentTransaction.replace(R.id.frame, new CreateNoteFragment());
              Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.Create_note));
+
         }
 
         else{
@@ -236,9 +252,10 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
+
+
 
 }
 

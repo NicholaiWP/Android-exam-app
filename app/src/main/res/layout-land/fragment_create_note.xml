@@ -24,10 +24,10 @@
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.408"
+            app:layout_constraintHorizontal_bias="0.51"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.048" />
+            app:layout_constraintVertical_bias="0.031" />
 
         <EditText
             android:id="@+id/editTitle"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="368dp"
+            android:layout_marginBottom="200dp"
             android:autofillHints="@string/Insert_notes"
             android:ems="10"
             android:hint="@string/Title"
@@ -44,27 +44,26 @@
             android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.176"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.215" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
         <EditText
             android:id="@+id/editBodyText"
-            android:layout_width="315dp"
+            android:layout_width="550dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="308dp"
+            android:layout_marginBottom="144dp"
             android:autofillHints="@string/insert_note_text"
             android:ems="10"
             android:hint="@string/insert_note_text"
             android:inputType="textMultiLine"
-            android:maxLines="12"
+            android:maxLines="6"
             android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.339"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
@@ -79,11 +78,9 @@
             android:text="@string/Create_note"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.458"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.95" />
-
+            app:layout_constraintVertical_bias="0.967" />
 
     </android.support.constraint.ConstraintLayout>
 

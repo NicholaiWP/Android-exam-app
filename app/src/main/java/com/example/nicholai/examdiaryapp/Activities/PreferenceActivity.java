@@ -6,9 +6,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.example.nicholai.examdiaryapp.Activities.MainActivity;
@@ -18,6 +22,7 @@ import com.example.nicholai.examdiaryapp.R;
 public class PreferenceActivity extends Activity {
 
     private static final int RESULT_CODE_PREFERENCES = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +63,7 @@ public class PreferenceActivity extends Activity {
             boolean isDarkTheme = SettingsFragment.IsDarkState(this);
             updateUI(isDarkTheme);
 
-
         }
     }
+
 }

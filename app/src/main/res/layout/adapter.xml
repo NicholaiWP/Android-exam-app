@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/notetitle"
-        android:hint="@string/enter_title_here"
+        android:text=""
+        android:hint="@string/Title"
         android:autofillHints="" />
 
 
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textMultiLine"
-        android:hint="@string/enter_body_text_here"
+        android:hint="@string/insert_note_text"
         android:autofillHints="" />
 
 </LinearLayout>

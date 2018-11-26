@@ -2,6 +2,7 @@ package com.example.nicholai.examdiaryapp.Fragments;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.snackbar.ContentViewCallback;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toolbar;
 
 import com.example.nicholai.examdiaryapp.Classes.NoteAdapter;
 import com.example.nicholai.examdiaryapp.Classes.TextNote;
@@ -23,15 +25,8 @@ import java.util.ArrayList;
  */
 public class MyNotesFragment extends ListFragment {
 
-    public ArrayList<TextNote> getNotes() {
-        return notes;
-    }
 
-    public void setNotes(ArrayList<TextNote> notes) {
-        this.notes = notes;
-    }
-
-    private ArrayList<TextNote> notes = new ArrayList<>();
+    public static ArrayList<TextNote> notes = new ArrayList<>();
 
     public MyNotesFragment() {
         // Required empty public constructor
@@ -42,29 +37,18 @@ public class MyNotesFragment extends ListFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        if(getContext() != null && getView() != null){
-            notes.add(new TextNote("lol", "lol"));
-            ArrayAdapter<TextNote> adapter = new ArrayAdapter<>(getContext(),
-                    android.R.layout.simple_list_item_checked, notes);
+        View view = inflater.inflate(R.layout.fragment_my_notes, container, false);
 
-            ListView listView = getListView();
-            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
-            setListAdapter(adapter);
-
-            NoteAdapter nAdapter = new NoteAdapter(getContext(), 0,notes);
-            listView.setAdapter(nAdapter);
-        }
-
-        return inflater.inflate(R.layout.fragment_my_notes, container, false);
+        return view;
 
 
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-
-    public void AddNote(){
-        notes.add(new TextNote("", ""));
+      //  ArrayAdapter<TextNote> adapter = new ArrayAdapter<TextNote>(getActivity(), android.R.layout.activity_list_item, notes);
+      //  setListAdapter(adapter);
     }
-
 }
