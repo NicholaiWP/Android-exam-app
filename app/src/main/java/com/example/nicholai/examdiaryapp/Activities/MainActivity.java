@@ -17,18 +17,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
+import java.util.Objects;
 
 import com.example.nicholai.examdiaryapp.Fragments.CreateNoteFragment;
 import com.example.nicholai.examdiaryapp.Fragments.MyNotesFragment;
 import com.example.nicholai.examdiaryapp.Fragments.SettingsFragment;
 import com.example.nicholai.examdiaryapp.Fragments.WelcomeFragment;
 import com.example.nicholai.examdiaryapp.R;
-
-import java.util.Objects;
-
-import static android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         //toolbar variable
          toolbar = findViewById(R.id.toolbar);
-
-
+         setSupportActionBar(toolbar);
 
 
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu

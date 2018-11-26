@@ -4,19 +4,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/StartScreen"
+           android:icon="@drawable/my_home"
             android:checked="false"
             android:title="@string/Home" />
 
+        <!--Add icons to menu-->
    <item android:title="@string/Notes">
        <menu>
 
            <item
                android:id="@+id/CreateNote"
+               android:icon="@android:drawable/ic_input_add"
                android:checked="false"
                android:title="@string/Create_note" />
 
            <item
                android:id="@+id/MyNotes"
+               android:icon="@android:drawable/ic_menu_edit"
                android:checked="false"
                android:title="@string/My_notes" />
        </menu>
@@ -26,6 +30,7 @@
             <menu>
                 <item
                     android:id="@+id/SignOut"
+                    android:icon="@android:drawable/ic_lock_lock"
                     android:checked="false"
                     android:title="@string/close_diary" />
             </menu>

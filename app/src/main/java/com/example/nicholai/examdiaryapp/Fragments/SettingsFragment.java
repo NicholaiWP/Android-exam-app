@@ -38,7 +38,6 @@ public class SettingsFragment extends PreferenceFragment {
                     SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
                     editor.putBoolean(DARK_STATE,isChecked);
                     editor.apply();
-                    Log.d("checked", "onCheckedChanged: " + isChecked);
                 }
             });
         }
