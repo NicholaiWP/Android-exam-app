@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import java.util.Collections;
 import java.util.Objects;
 
 import com.example.nicholai.examdiaryapp.Fragments.CreateNoteFragment;
@@ -25,17 +26,25 @@ import com.example.nicholai.examdiaryapp.Fragments.MyNotesFragment;
 import com.example.nicholai.examdiaryapp.Fragments.SettingsFragment;
 import com.example.nicholai.examdiaryapp.Fragments.WelcomeFragment;
 import com.example.nicholai.examdiaryapp.R;
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
     //Layout for the navigation drawer
     private DrawerLayout drawerLayout;
 
+    //reference to firebaseUI class
+    FirebaseUIActivity fireUI;
+
     //empty as default
     private String fragmentTitle = "";
 
     //Pref result code
     private final int RESULT_CODE_PREFERENCES = 1;
+
+    //sign_in constant
+    private static final int RC_SIGN_IN = 123;
 
     //Ids of the different drawer fragments
     public static final int welcomeID = 1;
@@ -55,6 +64,16 @@ public class MainActivity extends AppCompatActivity {
         //Needs to update theme before setting content view to avoid content view being set first
         updateUI(isDarkTheme);
         setContentView(R.layout.activity_main);
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(Collections.singletonList(
+                                new AuthUI.IdpConfig.EmailBuilder().build()))
+                        .build(),
+                RC_SIGN_IN);
+
 
         //check to see if the key 'fragment' exists, if it does retrieve the key
         if (savedInstanceState != null) {
@@ -116,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
 
                             case R.id.SignOut:
                                 //TODO add sign out functionality from authentication
+                               fireUI = (FirebaseUIActivity) getApplicationContext();
+                                fireUI.signOut();
 
                             default:
                                 if(menuItem.getItemId() == R.id.SignOut){

@@ -11,7 +11,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activities.MainActivity"
+        <activity
+            android:name=".Activities.MainActivity"
+            tools:ignore="InnerclassSeparator">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.PreferenceActivity"
+            android:parentActivityName=".Activities.MainActivity"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Activities.FirebaseUIActivity"
+            tools:ignore="InnerclassSeparator" />
+
+        <activity android:name=".Activities.SplashScreenActivity"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,9 +36,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.PreferenceActivity"
-            tools:ignore="InnerclassSeparator"
-            android:parentActivityName=".Activities.MainActivity"/>
     </application>
 
 </manifest>

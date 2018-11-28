@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">A Glimpse of Life</string>
-    <string name="Welcome">Welcome to</string>
+    <string name="Welcome">Welcome!</string>
     <string name="Create_note">Create note</string>
     <string name="My_notes">My notes</string>
     <string name="Settings">Settings</string>
@@ -14,5 +14,6 @@
     <string name="sign_out">Diary options</string>
     <string name="close_diary">Close diary</string>
     <string name="Home">Home</string>
+    <string name="Welcome_To">Welcome to a Glimpse of Life!</string>
 
 </resources>
