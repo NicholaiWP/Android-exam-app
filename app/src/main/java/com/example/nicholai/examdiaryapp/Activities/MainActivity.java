@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-import java.util.Collections;
 import java.util.Objects;
 
 import com.example.nicholai.examdiaryapp.Fragments.CreateNoteFragment;
@@ -27,6 +25,8 @@ import com.example.nicholai.examdiaryapp.Fragments.SettingsFragment;
 import com.example.nicholai.examdiaryapp.Fragments.WelcomeFragment;
 import com.example.nicholai.examdiaryapp.R;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,23 +34,18 @@ public class MainActivity extends AppCompatActivity {
     //Layout for the navigation drawer
     private DrawerLayout drawerLayout;
 
-    //reference to firebaseUI class
-    FirebaseUIActivity fireUI;
-
     //empty as default
     private String fragmentTitle = "";
 
     //Pref result code
     private final int RESULT_CODE_PREFERENCES = 1;
 
-    //sign_in constant
-    private static final int RC_SIGN_IN = 123;
-
     //Ids of the different drawer fragments
     public static final int welcomeID = 1;
     public static final int showNotesID = 2;
     public static final int createNoteID = 3;
 
+    //Toolbar ref.
     private Toolbar toolbar;
 
     //variable to control the fragment switches
@@ -64,16 +59,6 @@ public class MainActivity extends AppCompatActivity {
         //Needs to update theme before setting content view to avoid content view being set first
         updateUI(isDarkTheme);
         setContentView(R.layout.activity_main);
-
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(Collections.singletonList(
-                                new AuthUI.IdpConfig.EmailBuilder().build()))
-                        .build(),
-                RC_SIGN_IN);
-
 
         //check to see if the key 'fragment' exists, if it does retrieve the key
         if (savedInstanceState != null) {
@@ -134,9 +119,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.SignOut:
-                                //TODO add sign out functionality from authentication
-                               fireUI = (FirebaseUIActivity) getApplicationContext();
-                                fireUI.signOut();
+                                signOut();
 
                             default:
                                 if(menuItem.getItemId() == R.id.SignOut){
@@ -187,12 +170,10 @@ public class MainActivity extends AppCompatActivity {
         //Setting the actionbarToggle to drawer layout
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
-        //calling sync state is necessay or else your hamburger icon wont show up
+        //calling sync state is necessay or else hamburger icon won't show up
         actionBarDrawerToggle.syncState();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        // doing the fragment transaction here - replacing frame with HomeFragment -
-        //which is the startup fragment in the app.
-        Log.d("currrentfragment","currentfragment : "+currentFragment);
+        // doing the fragment transaction here - replacing frame with navigation drawer fragment elements -
 
         if(currentFragment == welcomeID){
             fragmentTransaction.replace(R.id.frame, new WelcomeFragment());
@@ -222,11 +203,22 @@ public class MainActivity extends AppCompatActivity {
     public void updateUI(boolean darkTheme)
     {
         if(darkTheme){
-
-            Log.d("ThemeChange", "updateUI: theme changed ");
             setTheme(R.style.AppThemeDark);
         }
     }
+
+    public void signOut() {
+        // [START auth_fui_signout]
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                    }
+                });
+        // [END auth_fui_signout]
+    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -252,7 +244,6 @@ public class MainActivity extends AppCompatActivity {
             boolean isDarkTheme = SettingsFragment.IsDarkState(this);
             Log.d("checkOnActivityResult", "onActivityResult: ");
             updateUI(isDarkTheme);
-            //Display snackbar or toast here to notify user about change
 
         }
     }
@@ -271,8 +262,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //Force user to log out when app is closed
+        FirebaseAuth.getInstance().signOut();
+    }
 }
 
 

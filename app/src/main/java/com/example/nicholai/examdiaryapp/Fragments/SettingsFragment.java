@@ -3,11 +3,14 @@ package com.example.nicholai.examdiaryapp.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
@@ -24,6 +27,7 @@ public class SettingsFragment extends PreferenceFragment {
     private static String DARK_STATE = "Dark";
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +36,7 @@ public class SettingsFragment extends PreferenceFragment {
 
         if(getView() != null){
             ToggleButton toggleButton = getView().findViewById(R.id.themeToggler);
+
             toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -39,9 +44,9 @@ public class SettingsFragment extends PreferenceFragment {
                     editor.putBoolean(DARK_STATE,isChecked);
                     editor.apply();
                 }
+
             });
         }
-
 
 
     }

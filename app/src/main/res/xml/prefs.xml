@@ -9,4 +9,5 @@
         android:summary="@string/Theme_explanation"
         android:title="Dark theme" />
 
+
 </PreferenceScreen>

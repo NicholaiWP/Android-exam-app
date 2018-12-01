@@ -17,6 +17,7 @@ import android.widget.ToggleButton;
 
 import com.example.nicholai.examdiaryapp.Activities.MainActivity;
 import com.example.nicholai.examdiaryapp.Fragments.SettingsFragment;
+import com.example.nicholai.examdiaryapp.Fragments.WelcomeFragment;
 import com.example.nicholai.examdiaryapp.R;
 
 public class PreferenceActivity extends Activity {
@@ -52,6 +53,7 @@ public class PreferenceActivity extends Activity {
         super.onBackPressed();
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+
     }
 
     @Override
