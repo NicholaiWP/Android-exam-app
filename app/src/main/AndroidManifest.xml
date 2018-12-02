@@ -14,8 +14,6 @@
             android:name=".Activities.MainActivity"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -24,17 +22,15 @@
             android:parentActivityName=".Activities.MainActivity"
             tools:ignore="InnerclassSeparator" />
         <activity
-            android:name=".Activities.SplashScreenActivity"
-            tools:ignore="InnerclassSeparator">
-        </activity>
-        <activity android:name=".Activities.LoginActivity"
+            android:name=".Activities.LoginActivity"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-              <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activities.RecoverPasswordActivity"></activity>
     </application>
 
 </manifest>

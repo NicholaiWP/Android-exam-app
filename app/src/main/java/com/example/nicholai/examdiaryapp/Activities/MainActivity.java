@@ -1,6 +1,7 @@
 package com.example.nicholai.examdiaryapp.Activities;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +18,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 import java.util.Objects;
 
 import com.example.nicholai.examdiaryapp.Fragments.CreateNoteFragment;
@@ -73,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.navigation_view);
 
         //toolbar variable
-         toolbar = findViewById(R.id.toolbar);
-         setSupportActionBar(toolbar);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
 
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
@@ -101,9 +102,9 @@ public class MainActivity extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
 
                             case R.id.StartScreen:
-                            fragment = new WelcomeFragment();
-                            fragmentTitle = getResources().getString(R.string.app_name);
-                            currentFragment = welcomeID;
+                                fragment = new WelcomeFragment();
+                                fragmentTitle = getResources().getString(R.string.app_name);
+                                currentFragment = welcomeID;
                                 break;
 
                             case R.id.MyNotes:
@@ -119,16 +120,9 @@ public class MainActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.SignOut:
-                                signOut();
+                                signOutAlert();
 
                             default:
-                                if(menuItem.getItemId() == R.id.SignOut){
-                                    Toast.makeText(getApplicationContext(), "log user out", Toast.LENGTH_SHORT).show();
-                                }
-                                else {
-                                    Toast.makeText(getApplicationContext(), "Something is Wrong", Toast.LENGTH_SHORT).show();
-                                }
-
                                 return true;
 
                         }
@@ -150,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = findViewById(R.id.drawer);
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer){
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -172,52 +166,72 @@ public class MainActivity extends AppCompatActivity {
 
         //calling sync state is necessay or else hamburger icon won't show up
         actionBarDrawerToggle.syncState();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         // doing the fragment transaction here - replacing frame with navigation drawer fragment elements -
 
-        if(currentFragment == welcomeID){
+        if (currentFragment == welcomeID) {
             fragmentTransaction.replace(R.id.frame, new WelcomeFragment());
             Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.Welcome));
 
-        }
-       else  if(currentFragment == showNotesID){
+        } else if (currentFragment == showNotesID) {
             fragmentTransaction.replace(R.id.frame, new MyNotesFragment());
             Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.My_notes));
 
 
-        }
-        else if(currentFragment == createNoteID){
-             fragmentTransaction.replace(R.id.frame, new CreateNoteFragment());
-             Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.Create_note));
+        } else if (currentFragment == createNoteID) {
+            fragmentTransaction.replace(R.id.frame, new CreateNoteFragment());
+            Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.Create_note));
 
-        }
-
-        else{
-             fragmentTransaction.replace(R.id.frame, new WelcomeFragment());
+        } else {
+            fragmentTransaction.replace(R.id.frame, new WelcomeFragment());
         }
 
         fragmentTransaction.commit(); //set starting fragment
     }
 
     //This method update text views, if needed later on, call in oncreate and onactivityresult
-    public void updateUI(boolean darkTheme)
-    {
-        if(darkTheme){
+    public void updateUI(boolean darkTheme) {
+        if (darkTheme) {
             setTheme(R.style.AppThemeDark);
         }
     }
 
-    public void signOut() {
-        // [START auth_fui_signout]
+    /**
+     * Sign user out using firebase authentication
+     */
+    private void signOut(){
         AuthUI.getInstance()
-                .signOut(this)
+                .signOut(MainActivity.this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
-                        // ...
+                        FirebaseAuth.getInstance().signOut();
+                        finish();
                     }
                 });
-        // [END auth_fui_signout]
     }
+
+    private void signOutAlert() {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Are you sure, You want to sign out of 'Glimpse'?");
+        alertDialogBuilder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    signOut();
+                }});
+
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int arg0) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
 
 
     @Override
@@ -242,7 +256,6 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode==RESULT_CODE_PREFERENCES) //this code means we came back from settings
         {
             boolean isDarkTheme = SettingsFragment.IsDarkState(this);
-            Log.d("checkOnActivityResult", "onActivityResult: ");
             updateUI(isDarkTheme);
 
         }

@@ -15,10 +15,16 @@
     <string name="close_diary">Close diary</string>
     <string name="Home">Home</string>
     <string name="Welcome_To">~ A glimpse of Life!</string>
-    <string name="login">Already have an account? Login</string>
+    <string name="login">Login with existing account</string>
     <string name="signUp">Sign up</string>
     <string name="glimpselogo">glimpseLogo</string>
     <string name="registerUser">Register user</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
+    <string name="login_image">login_image</string>
+    <string name="forgot">Forgot password? </string>
+    <string name="your_email_here">Your email</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="back">BACK</string>
+    <string name="reset_guide">Enter your email, press the \'Reset\' button and check your mail. If you can not find it, look in your \'Unwanted mail\' section</string>
 </resources>

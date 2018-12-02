@@ -20,14 +20,15 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 
 /**
- * This class was made with help from following youtube tutorial (part 1 and 2): https://www.youtube.com/watch?v=mF5MWLsb4cg
+ * This class was made with help from following youtube tutorial (part 1 and 2) - of how to create custom login screen
+ * https://www.youtube.com/watch?v=mF5MWLsb4cg
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth fireAuth;
     private EditText editTextEmail, editTextPassword;
-    private ProgressBar progress;
+    private ProgressBar loadProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +36,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
 
-        mAuth = FirebaseAuth.getInstance();
+        fireAuth = FirebaseAuth.getInstance();
 
-/* //This was for using firebase's standard UI.
+/* //For using firebase's standard UI.
         FirebaseAuth auth = FirebaseAuth.getInstance();
         startActivityForResult(
                 AuthUI.getInstance()
@@ -47,14 +48,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         .build(),
                 RC_SIGN_IN);
 */
-        progress = findViewById(R.id.progressBar);
+
+        loadProgressBar = findViewById(R.id.progressBar);
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
 
         findViewById(R.id.registerUser).setOnClickListener(this);
         findViewById(R.id.login).setOnClickListener(this);
+        findViewById(R.id.forgotPassword).setOnClickListener(this);
     }
 
+    /**
+     * Method used for the button to register a new user
+     */
         private void registerUser(){
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
@@ -65,16 +71,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
+            //check is the email address entered by the user matches the one registered in firebase authentication
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             editTextEmail.setError("Enter a valid Email");
             editTextEmail.requestFocus();
             return;
         }
+
+        //Check if the user entered a password
          if(password.isEmpty()){
             editTextEmail.setError("Password is required");
              editTextEmail.requestFocus();
              return;
         }
+
 
         if(password.length() < 6){
             editTextPassword.setError("Minimum length of password should be 6");
@@ -82,14 +92,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        progress.setVisibility(View.VISIBLE);
+        loadProgressBar.setVisibility(View.VISIBLE);
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        fireAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                progress.setVisibility(View.GONE);
+                loadProgressBar.setVisibility(View.GONE);
                 if(task.isSuccessful()){
-                    Intent i = new Intent(LoginActivity.this, SplashScreenActivity.class);
+                    Toast.makeText(getApplicationContext(), "Registration successful", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
                     //clear all activities on top of the stack
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
@@ -105,7 +116,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         }
 
-        private void userLogin(){
+        private void goToPasswordReset(){
+            Intent intent = new Intent(this, RecoverPasswordActivity.class);
+            startActivity(intent);
+        }
+
+
+    /**
+     * Method used for the button to login a user
+     */
+    private void userLogin(){
 
             String email = editTextEmail.getText().toString().trim();
             String password = editTextPassword.getText().toString().trim();
@@ -116,41 +136,50 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 return;
             }
 
+            //check is the email address entered by the user matches the one registered in firebase authentication
             if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                 editTextEmail.setError("Enter a valid Email");
                 editTextEmail.requestFocus();
                 return;
             }
+            //Check is password is empty
             if(password.isEmpty()){
                 editTextEmail.setError("Password is required");
                 editTextEmail.requestFocus();
                 return;
             }
 
+            //Check if length of password is less than 6
             if(password.length() < 6){
                 editTextPassword.setError("Minimum length of password should be 6");
                 editTextPassword.requestFocus();
                 return;
             }
 
-            progress.setVisibility(View.VISIBLE);
+            //Hide progress bar until the button is pressed
+            loadProgressBar.setVisibility(View.VISIBLE);
 
-            mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            //Here I'm using firebase's sing-in with email and password method which takes in two strings; an email and password.
+            fireAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                //When a user signs in, the method below validates whether the task was successful or not.
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    progress.setVisibility(View.GONE);
+                    loadProgressBar.setVisibility(View.GONE);
                     if(task.isSuccessful()){
-                        Intent i = new Intent(LoginActivity.this, SplashScreenActivity.class);
+                        //if user signs out manually, I don't want the previous text to still be there
+                        Toast.makeText(getApplicationContext(), "Sign in successful", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
                         //clear all activities on top of the stack
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
+                        editTextPassword.getText().clear();
+                        editTextEmail.getText().clear();
                     }
                     else {
                         Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-
 
         }
 
@@ -162,6 +191,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.login:
                userLogin();
+                break;
+            case R.id.forgotPassword:
+                goToPasswordReset();
                 break;
         }
     }
