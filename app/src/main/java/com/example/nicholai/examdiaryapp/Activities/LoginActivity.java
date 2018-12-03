@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -23,20 +24,20 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
  * This class was made with help from following youtube tutorial (part 1 and 2) - of how to create custom login screen
  * https://www.youtube.com/watch?v=mF5MWLsb4cg
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity {
 
 
     private FirebaseAuth fireAuth;
     private EditText editTextEmail, editTextPassword;
     private ProgressBar loadProgressBar;
+    private Button registerUser;
+    private Button loginButton;
+    private Button forgotButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
-        fireAuth = FirebaseAuth.getInstance();
 
 /* //For using firebase's standard UI.
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -48,14 +49,61 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         .build(),
                 RC_SIGN_IN);
 */
+        //get the firebase authentication instance
+        fireAuth = FirebaseAuth.getInstance();
 
+        //Find ids of email, password and progressbar UI
         loadProgressBar = findViewById(R.id.progressBar);
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
 
-        findViewById(R.id.registerUser).setOnClickListener(this);
-        findViewById(R.id.login).setOnClickListener(this);
-        findViewById(R.id.forgotPassword).setOnClickListener(this);
+        //listen on button clicks
+        registerUser = findViewById(R.id.registerUser);
+        loginButton = findViewById(R.id.login);
+        forgotButton = findViewById(R.id.forgotPassword);
+
+        //(defensive programming, check if buttons exist prior to orientation.
+        // Not needed with either of the buttons though
+        if(registerUser != null){
+            registerUser.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(v != null){
+                        if(v.getId() == R.id.registerUser){
+                            registerUser();
+                        }
+                    }
+
+                }
+            });
+        }
+
+        if(loginButton != null){
+         loginButton.setOnClickListener(new View.OnClickListener() {
+             @Override
+            public void onClick(View v) {
+            if(v != null){
+                if(v.getId() == R.id.login){
+                    userLogin();
+                }
+            }
+
+        }
+    });
+}
+         if(forgotButton != null){
+             forgotButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v != null){
+                    if(v.getId() == R.id.forgotPassword){
+                        goToPasswordReset();
+                    }
+                }
+
+            }
+        });
+    }
     }
 
     /**
@@ -65,6 +113,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
+        //Check is email string is empty, if it is - request the user's focus on the text field and return
         if(email.isEmpty()){
             editTextEmail.setError("Email is required");
             editTextEmail.requestFocus();
@@ -85,18 +134,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
              return;
         }
 
-
+        //Check if password length is less than 6
         if(password.length() < 6){
             editTextPassword.setError("Minimum length of password should be 6");
             editTextPassword.requestFocus();
             return;
         }
 
+        //Set progressbar as visible when user clicks register (when this method is called)
         loadProgressBar.setVisibility(View.VISIBLE);
 
+        //Creates user, using firebase's authentication. The method takes in an email and password. These I get from my class's global fields.
         fireAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                //When user is registered, do not show progress bar.
                 loadProgressBar.setVisibility(View.GONE);
                 if(task.isSuccessful()){
                     Toast.makeText(getApplicationContext(), "Registration successful", Toast.LENGTH_SHORT).show();
@@ -116,7 +168,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         }
 
-        private void goToPasswordReset(){
+    /**
+     * When user clicks on 'Forgot password', navigate to activity where user can request a new password
+     */
+    private void goToPasswordReset(){
             Intent intent = new Intent(this, RecoverPasswordActivity.class);
             startActivity(intent);
         }
@@ -182,19 +237,4 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             });
 
         }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.registerUser:
-                registerUser();
-                break;
-            case R.id.login:
-               userLogin();
-                break;
-            case R.id.forgotPassword:
-                goToPasswordReset();
-                break;
-        }
-    }
 }

@@ -30,19 +30,23 @@ public class RecoverPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recover_password);
 
+        //Find ids of buttons and email input field
         emailText = findViewById(R.id.edt_reset_email);
         resetPasswordButton = findViewById(R.id.btn_reset_password);
         backButton = findViewById(R.id.btn_back);
 
+        //get firebase authentication instance
         fireAuth = FirebaseAuth.getInstance();
 
+        //listen to reset button clicks
         resetPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                //get user's email input
                 String email = emailText.getText().toString().trim();
 
-                //check to see if string/email is empty
+                //check to see if string/email entered by user is empty
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter your email!", Toast.LENGTH_SHORT).show();
                     return;
@@ -62,6 +66,7 @@ public class RecoverPasswordActivity extends AppCompatActivity {
             }
         });
 
+        //listen to back button, if it is pressed, finish/exit activity and return to launcher (Login screen)
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

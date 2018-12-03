@@ -36,7 +36,7 @@ public class SettingsFragment extends PreferenceFragment {
 
         if(getView() != null){
             ToggleButton toggleButton = getView().findViewById(R.id.themeToggler);
-
+            //listen to toggle button state and change theme accordingly
             toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -51,6 +51,7 @@ public class SettingsFragment extends PreferenceFragment {
 
     }
 
+     // Method used to save theme state
     public static boolean IsDarkState(Context context)
     {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(DARK_STATE, false);

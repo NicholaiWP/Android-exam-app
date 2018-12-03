@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import java.util.Objects;
-
 import com.example.nicholai.examdiaryapp.Fragments.CreateNoteFragment;
 import com.example.nicholai.examdiaryapp.Fragments.MyNotesFragment;
 import com.example.nicholai.examdiaryapp.Fragments.SettingsFragment;
@@ -56,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //save theme code
         boolean isDarkTheme = SettingsFragment.IsDarkState(this);
         //Needs to update theme before setting content view to avoid content view being set first
         updateUI(isDarkTheme);
@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-
                         //Checking if the item is in checked state or not, if not make it in checked state
                         if (menuItem.isChecked())
                             menuItem.setChecked(false);
@@ -102,30 +101,47 @@ public class MainActivity extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
 
                             case R.id.StartScreen:
+                                //instantiate fragment
                                 fragment = new WelcomeFragment();
+                                //set fragment title
                                 fragmentTitle = getResources().getString(R.string.app_name);
+                                //check if current fragment equals selected fragment in the burger menu item
                                 currentFragment = welcomeID;
                                 break;
 
                             case R.id.MyNotes:
+                                //instantiate fragment
                                 fragment = new MyNotesFragment();
+                                //set fragment title
                                 fragmentTitle = getResources().getString(R.string.My_notes);
+                                //check if current fragment equals selected fragment in the burger menu item
                                 currentFragment = showNotesID;
                                 break;
 
                             case R.id.CreateNote:
+                                //instantiate fragment
                                 fragment = new CreateNoteFragment();
+                                //check if current fragment equals selected fragment in the burger menu item
                                 currentFragment = createNoteID;
+                                //set fragment title
                                 fragmentTitle = getResources().getString(R.string.Create_note);
                                 break;
 
                             case R.id.SignOut:
+                                //call sign out method, if user clicks log out and display an alert dialogue box, prompting the user for an answer.
+                                //This is used because users might click on the log out button by mistake. So to make sure this doesn't happen -
+                                //a dialogue alert box is displayed with  'Yes' and 'No' answers. If the user clicks 'No' the dialogue box closes, otherwise
+                                //The user is logged out from his/her session.
                                 signOutAlert();
 
                             default:
                                 return true;
 
                         }
+                        //Attempt to make a fragment transaction (switch to another screen in the app via burger menu items)
+                        //The 'Frame' id is the id of the frame UI which is replaced with a fragment. All transactions are added to the back stack
+                        //So that the stack can be popped (return to previous fragment/screen)
+                        //title is also set here.
                         try {
                             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                             fragmentTransaction.replace(R.id.frame, fragment);
@@ -210,6 +226,9 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Display alert dialogue if user logs out.
+     */
     private void signOutAlert() {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -233,7 +252,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Save state of the current fragment
+     * @param outState
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         //save current fragment on device rotation
@@ -242,6 +264,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Create options menu
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -261,6 +288,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check if user clicks on settings
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -275,6 +307,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Check if app is killed, if it is - log user out from the app
+     */
     @Override
     protected void onStop() {
         super.onStop();
