@@ -15,7 +15,6 @@ import com.example.nicholai.examdiaryapp.R;
  */
 public class CreateNoteFragment extends Fragment {
 
-
     public CreateNoteFragment() {
         // Required empty public constructor
     }

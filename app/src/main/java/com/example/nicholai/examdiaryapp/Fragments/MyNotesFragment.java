@@ -3,17 +3,16 @@ package com.example.nicholai.examdiaryapp.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import com.example.nicholai.examdiaryapp.Note;
+import com.example.nicholai.examdiaryapp.NoteAdapter;
 import com.example.nicholai.examdiaryapp.R;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 
 /**
@@ -21,11 +20,9 @@ import java.util.Arrays;
  */
 public class MyNotesFragment extends Fragment {
 
-    private String[] countries = { "Albania", "Algeria", "Armenia", "Andorra",
-            "Angola", "Argentina", "Australia", "Bahrain", "Bangladesh",
-            "Barbados", "Brazil", "China", "Denmark", "Egypt", "France",
-            "Ghana", "Hong Kong", "India", "Italy", "United Kingdom",
-            "United States", "United Arab Emirates" };
+    RecyclerView recyclerView;
+    NoteAdapter adapter;
+    ArrayList<Note> noteArrayList;
 
     public MyNotesFragment() {
         // Required empty public constructor
@@ -37,26 +34,16 @@ public class MyNotesFragment extends Fragment {
         // Inflates the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_my_notes, container, false);
 
-        ArrayList<String> list = new ArrayList<>(Arrays.asList(countries));
+        noteArrayList = new ArrayList<>();
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        //Recycler view will have a fixed size, so increase or decrease doesnt have an influence on it
+        recyclerView.setHasFixedSize(true);
+        //recycleview design layout
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        adapter = new NoteAdapter(view.getContext(), noteArrayList);
+        recyclerView.setAdapter(adapter);
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(),
-                android.R.layout.simple_list_item_checked, list);
-
-        final ListView listView = view.findViewById(R.id.noteList);
-
-        //only allow one element to be selected at the same time
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("listview","itemclicked");
-                String country = countries[position];
-                Toast.makeText(view.getContext(),"you clicked : "+
-                        country,Toast.LENGTH_SHORT).show();
-            }
-        });
+        noteArrayList.add(new Note("something", "something"));
 
         return view;
 

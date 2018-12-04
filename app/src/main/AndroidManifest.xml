@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.nicholai.examdiaryapp">
+    <!--Login authentication requires internet use-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--To read from user's external storage-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--To write to user's external storage-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="false"

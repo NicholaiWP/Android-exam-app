@@ -6,12 +6,10 @@
     android:orientation="vertical"
     tools:context=".Fragments.MyNotesFragment">
 
-        <ListView
-            android:id="@+id/noteList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:dividerHeight="15dp" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
 </FrameLayout>
