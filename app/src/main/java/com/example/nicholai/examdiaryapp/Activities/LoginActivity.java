@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.nicholai.examdiaryapp.R;
+import com.example.nicholai.examdiaryapp.Singleton.NoteManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -51,6 +52,11 @@ public class LoginActivity extends AppCompatActivity {
 */
         //get the firebase authentication instance
         fireAuth = FirebaseAuth.getInstance();
+
+        if(fireAuth.getCurrentUser() != null){
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        }
 
         //Find ids of email, password and progressbar UI
         loadProgressBar = findViewById(R.id.progressBar);
@@ -210,6 +216,7 @@ public class LoginActivity extends AppCompatActivity {
                 editTextPassword.requestFocus();
                 return;
             }
+
 
             //Hide progress bar until the button is pressed
             loadProgressBar.setVisibility(View.VISIBLE);

@@ -3,14 +3,23 @@ package com.example.nicholai.examdiaryapp.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
 import com.example.nicholai.examdiaryapp.Note;
 import com.example.nicholai.examdiaryapp.NoteAdapter;
 import com.example.nicholai.examdiaryapp.R;
+import com.example.nicholai.examdiaryapp.Singleton.NoteManager;
+
 import java.util.ArrayList;
 
 
@@ -20,9 +29,9 @@ import java.util.ArrayList;
  */
 public class MyNotesFragment extends Fragment {
 
-    RecyclerView recyclerView;
-    NoteAdapter adapter;
-    ArrayList<Note> noteArrayList;
+    private RecyclerView recyclerView;
+    private NoteAdapter adapter;
+    private View view;
 
     public MyNotesFragment() {
         // Required empty public constructor
@@ -32,18 +41,15 @@ public class MyNotesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflates the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_my_notes, container, false);
+        view = inflater.inflate(R.layout.fragment_my_notes, container, false);
 
-        noteArrayList = new ArrayList<>();
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         //Recycler view will have a fixed size, so increase or decrease doesnt have an influence on it
         recyclerView.setHasFixedSize(true);
         //recycleview design layout
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        adapter = new NoteAdapter(view.getContext(), noteArrayList);
+        adapter = new NoteAdapter(view.getContext(), NoteManager.getInstance().notes);
         recyclerView.setAdapter(adapter);
-
-        noteArrayList.add(new Note("something", "something"));
 
         return view;
 

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentFragment == welcomeID) {
             fragmentTransaction.replace(R.id.frame, new WelcomeFragment());
-            Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.Welcome));
+            Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.app_name));
 
         } else if (currentFragment == showNotesID) {
             fragmentTransaction.replace(R.id.frame, new MyNotesFragment());
@@ -200,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             fragmentTransaction.replace(R.id.frame, new WelcomeFragment());
+            Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.app_name));
         }
 
         fragmentTransaction.commit(); //set starting fragment
@@ -305,16 +307,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Check if app is killed, if it is - log user out from the app
-     */
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //Force user to log out when app is closed
-        FirebaseAuth.getInstance().signOut();
     }
 }
 

@@ -27,4 +27,5 @@
     <string name="reset_password">Reset Password</string>
     <string name="back">BACK</string>
     <string name="reset_guide">Enter your email, press the \'Reset\' button and check your mail. If you can not find it, look in your \'Unwanted mail\' section</string>
+    <string name="deletebutton">deleteButton</string>
 </resources>
