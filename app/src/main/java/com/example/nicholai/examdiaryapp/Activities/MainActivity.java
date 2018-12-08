@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         updateUI(isDarkTheme);
         setContentView(R.layout.activity_main);
 
+
         //check to see if the key 'fragment' exists, if it does retrieve the key
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey("fragment")) {

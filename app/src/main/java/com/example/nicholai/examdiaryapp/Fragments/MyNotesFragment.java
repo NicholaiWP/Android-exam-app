@@ -3,26 +3,14 @@ package com.example.nicholai.examdiaryapp.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
-
-import com.example.nicholai.examdiaryapp.Note;
 import com.example.nicholai.examdiaryapp.NoteAdapter;
 import com.example.nicholai.examdiaryapp.R;
 import com.example.nicholai.examdiaryapp.Singleton.NoteManager;
-
-import java.util.ArrayList;
-
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,6 +38,8 @@ public class MyNotesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         adapter = new NoteAdapter(view.getContext(), NoteManager.getInstance().notes);
         recyclerView.setAdapter(adapter);
+
+
 
         return view;
 
