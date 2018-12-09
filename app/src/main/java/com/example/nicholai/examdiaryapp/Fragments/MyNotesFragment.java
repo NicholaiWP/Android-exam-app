@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.example.nicholai.examdiaryapp.NoteAdapter;
 import com.example.nicholai.examdiaryapp.R;
 import com.example.nicholai.examdiaryapp.Singleton.NoteManager;
@@ -38,8 +40,6 @@ public class MyNotesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         adapter = new NoteAdapter(view.getContext(), NoteManager.getInstance().notes);
         recyclerView.setAdapter(adapter);
-
-
 
         return view;
 

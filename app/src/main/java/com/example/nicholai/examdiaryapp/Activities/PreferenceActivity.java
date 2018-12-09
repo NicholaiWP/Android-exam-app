@@ -24,7 +24,6 @@ public class PreferenceActivity extends Activity {
 
     private static final int RESULT_CODE_PREFERENCES = 2;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

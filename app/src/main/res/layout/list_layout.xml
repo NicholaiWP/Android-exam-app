@@ -7,7 +7,7 @@
     <android.support.v7.widget.CardView
         android:id="@+id/myCardView"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
@@ -18,15 +18,24 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary">
+            android:background="@color/Beige">
 
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="250dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="15dp"
+                android:text=""
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/deleNoteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="300dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:contentDescription="@string/deletebutton"
@@ -35,9 +44,9 @@
             <TextView
                 android:id="@+id/myTitle"
                 android:layout_width="250dp"
-                android:layout_height="29dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:ems="10"
@@ -50,13 +59,13 @@
             <TextView
                 android:id="@+id/body"
                 android:layout_width="250dp"
-                android:layout_height="93dp"
+                android:layout_height="100dp"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="80dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:ems="10"
-                android:lines="20"
+                android:lines="40"
                 android:text="" />
 
         </RelativeLayout>

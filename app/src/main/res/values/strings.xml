@@ -6,7 +6,7 @@
     <string name="Settings">Settings</string>
     <string name="openDrawer">open</string>
     <string name="closeDrawer">close</string>
-    <string name="Theme_explanation">Changes the theme to dark. Note: this might require you to login again</string>
+    <string name="Theme_explanation">Changes the theme to a dark theme</string>
     <string name="insert_note_text">Write down your thoughts</string>
     <string name="Title">Title</string>
     <string name="Insert_notes">Insert_notes</string>
@@ -28,4 +28,5 @@
     <string name="back">BACK</string>
     <string name="reset_guide">Enter your email, press the \'Reset\' button and check your mail. If you can not find it, look in your \'Unwanted mail\' section</string>
     <string name="deletebutton">deleteButton</string>
+    <string name="done">Done</string>
 </resources>

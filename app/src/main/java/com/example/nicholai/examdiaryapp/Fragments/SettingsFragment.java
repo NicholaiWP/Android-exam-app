@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
@@ -12,10 +13,12 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.example.nicholai.examdiaryapp.Activities.MainActivity;
 import com.example.nicholai.examdiaryapp.R;
+import com.firebase.ui.auth.data.model.Resource;
 
 import java.util.Objects;
 
@@ -27,12 +30,12 @@ public class SettingsFragment extends PreferenceFragment {
     private static String DARK_STATE = "Dark";
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //add layout from 'prefs' in the xml directory folder
         addPreferencesFromResource(R.xml.prefs);
+
 
         if(getView() != null){
             ToggleButton toggleButton = getView().findViewById(R.id.themeToggler);
@@ -50,7 +53,6 @@ public class SettingsFragment extends PreferenceFragment {
 
 
     }
-
      // Method used to save theme state
     public static boolean IsDarkState(Context context)
     {

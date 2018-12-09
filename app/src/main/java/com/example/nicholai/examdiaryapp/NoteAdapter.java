@@ -2,6 +2,7 @@ package com.example.nicholai.examdiaryapp;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -10,13 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.example.nicholai.examdiaryapp.Fragments.SettingsFragment;
 import com.example.nicholai.examdiaryapp.Singleton.NoteManager;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
-/**
- * recyclerview.adapter
- * RecyclerView.Viewholder
- */
+
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
     private Context context;
@@ -42,6 +45,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         final Note note = NoteManager.getInstance().notes.get(position);
         noteViewHolder.title.setText(note.getTitle());
         noteViewHolder.bodyText.setText(note.getNoteBody());
+
+        //Time
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new  SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault());
+        String strDate = df.format(date);
+        noteViewHolder.timeView.setText(strDate);
+
        // noteViewHolder.imageView.setImageDrawable(context.getResources().getDrawable(note.getImage()));
 
     }
@@ -65,16 +75,24 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     class NoteViewHolder extends RecyclerView.ViewHolder{
 
-      //  ImageView imageView;
-        TextView title;
-        TextView bodyText;
-        ImageView deleteButton;
+        private TextView title;
+        private TextView bodyText;
+        private TextView timeView;
+        private ImageView deleteButton;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
+            timeView = itemView.findViewById(R.id.time);
             title = itemView.findViewById(R.id.myTitle);
             bodyText = itemView.findViewById(R.id.body);
             deleteButton = itemView.findViewById(R.id.deleNoteButton);
+
+            //making sure text is visible in the notes after switching to dark theme
+            if(SettingsFragment.IsDarkState(itemView.getContext())){
+                title.setTextColor(Color.BLACK);
+                timeView.setTextColor(Color.BLACK);
+                bodyText.setTextColor(Color.BLACK);
+            }
 
 
             deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -98,10 +116,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
-                    //When clicked, a card is removed
+
                 }
             });
-          //  imageView = itemView.findViewById(R.id.imageView);
         }
     }
 }
