@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
                         FirebaseAuth.getInstance().signOut();
-                        finish();
+                        finishAffinity();
                     }
                 });
     }

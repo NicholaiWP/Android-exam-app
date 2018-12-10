@@ -38,7 +38,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         return new NoteViewHolder(view);
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull final NoteViewHolder noteViewHolder, final int position) {
     //binds data to view holder, wont return anything
@@ -62,15 +61,23 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         //returns size of list
     }
 
-    private void removeItem(int position){
+    public void clear(){
+        NoteManager.getInstance().notes.clear();
+        int sizeOfList = NoteManager.getInstance().notes.size();
+        notifyItemRangeRemoved(0, sizeOfList);
+    }
+
+    public void removeItem(int position){
         NoteManager.getInstance().notes.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, NoteManager.getInstance().notes.size());
     }
 
-    public void addItem(Note note){
+    public Note addItem(Note note){
         NoteManager.getInstance().notes.add(note);
         notifyItemInserted(NoteManager.getInstance().notes.size()-1);
+
+        return note;
     }
 
     class NoteViewHolder extends RecyclerView.ViewHolder{
@@ -80,7 +87,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         private TextView timeView;
         private ImageView deleteButton;
 
-        public NoteViewHolder(@NonNull View itemView) {
+        public NoteViewHolder(@NonNull final View itemView) {
             super(itemView);
             timeView = itemView.findViewById(R.id.time);
             title = itemView.findViewById(R.id.myTitle);

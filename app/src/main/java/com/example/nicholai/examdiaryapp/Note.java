@@ -10,7 +10,7 @@ public class Note {
     // private int image;
 
     public Note(){
-
+   //  // Default constructor required for saving data to firebase realtime database
     }
 
     public Note(String title, String noteBody) {
@@ -34,5 +34,10 @@ public class Note {
 
     public void setNoteBody(String noteBody) {
         this.noteBody = noteBody;
+    }
+
+    @Override
+    public String toString() {
+        return title + " " + "title " + " " + "notebody " + noteBody;
     }
 }

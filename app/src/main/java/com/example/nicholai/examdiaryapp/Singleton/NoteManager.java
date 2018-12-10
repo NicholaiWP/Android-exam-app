@@ -9,6 +9,16 @@ import java.util.ArrayList;
 public class NoteManager {
     private static final NoteManager ourInstance = new NoteManager();
 
+    public static String NOTE_PATH = "notes";
+
+    public ArrayList<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(ArrayList<Note> notes) {
+        this.notes = notes;
+    }
+
     public ArrayList<Note> notes = new ArrayList<>();
 
 

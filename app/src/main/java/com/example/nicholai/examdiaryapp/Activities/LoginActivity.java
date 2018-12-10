@@ -20,10 +20,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 
-/**
- * This class was made with help from following youtube tutorial (part 1 and 2) - of how to create custom login screen
- * https://www.youtube.com/watch?v=mF5MWLsb4cg
- */
 public class LoginActivity extends AppCompatActivity {
 
 

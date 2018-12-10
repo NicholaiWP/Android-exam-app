@@ -15,9 +15,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-/**
- * https://grokonez.com/android/firebase-authentication-send-reset-password-email-forgot-password-android
- */
 public class RecoverPasswordActivity extends AppCompatActivity {
 
     private EditText emailText;
