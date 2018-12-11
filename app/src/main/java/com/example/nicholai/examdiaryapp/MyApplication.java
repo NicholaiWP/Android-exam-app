@@ -6,6 +6,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MyApplication extends Application {
 
+    /**
+     * This is for securing persistence between the app and firebase
+     * and is run before activities. (declared in manifest file)
+     */
     @Override
     public void onCreate() {
         super.onCreate();

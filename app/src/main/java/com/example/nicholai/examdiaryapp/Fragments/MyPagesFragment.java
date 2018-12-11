@@ -1,6 +1,7 @@
 package com.example.nicholai.examdiaryapp.Fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,10 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.nicholai.examdiaryapp.Note;
-import com.example.nicholai.examdiaryapp.NoteAdapter;
+import com.example.nicholai.examdiaryapp.Activities.MainActivity;
+import com.example.nicholai.examdiaryapp.DiaryPage;
+import com.example.nicholai.examdiaryapp.PageAdapter;
 import com.example.nicholai.examdiaryapp.R;
-import com.example.nicholai.examdiaryapp.Singleton.NoteManager;
+import com.example.nicholai.examdiaryapp.Singleton.PageManager;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,13 +25,14 @@ import com.google.firebase.database.ValueEventListener;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyNotesFragment extends Fragment {
+public class MyPagesFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private NoteAdapter adapter;
+    private PageAdapter adapter;
+    private MainActivity main;
     private View view;
 
-    public MyNotesFragment() {
+    public MyPagesFragment() {
         // Required empty public constructor
     }
 
@@ -37,10 +40,10 @@ public class MyNotesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflates the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_my_notes, container, false);
+        view = inflater.inflate(R.layout.fragment_my_pages, container, false);
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference().child(NoteManager.NOTE_PATH);
+        final DatabaseReference myRef = database.getReference().child(PageManager.PAGE_PATH);
 
         // myRef.setValue(null); to erase database
 
@@ -49,7 +52,7 @@ public class MyNotesFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         //recycleview design layout
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(),  LinearLayoutManager.HORIZONTAL, false));
-        adapter = new NoteAdapter(view.getContext(), NoteManager.getInstance().notes);
+        adapter = new PageAdapter(view.getContext(), PageManager.getInstance().pages);
         recyclerView.setAdapter(adapter);
 
         ValueEventListener postListener = new ValueEventListener() {
@@ -57,8 +60,8 @@ public class MyNotesFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 adapter.clear();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    Note note = postSnapshot.getValue(Note.class);
-                    adapter.addItem(note);
+                    DiaryPage page = postSnapshot.getValue(DiaryPage.class);
+                    adapter.addItem(page);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -75,6 +78,15 @@ public class MyNotesFragment extends Fragment {
 
         return view;
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof MainActivity){
+            main = (MainActivity) context;
+        }
     }
 
 }

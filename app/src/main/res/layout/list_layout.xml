@@ -31,7 +31,7 @@
                 android:textSize="16sp" />
 
             <ImageView
-                android:id="@+id/deleNoteButton"
+                android:id="@+id/delePageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="300dp"

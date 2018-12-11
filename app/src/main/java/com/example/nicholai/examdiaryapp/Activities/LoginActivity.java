@@ -18,6 +18,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -153,10 +155,21 @@ public class LoginActivity extends AppCompatActivity {
                 loadProgressBar.setVisibility(View.GONE);
                 if(task.isSuccessful()){
                     Toast.makeText(getApplicationContext(), "Registration successful", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                    //clear all activities on top of the stack
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
+                    //confirm to user that they've been successfully registered
+                    fireAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+                        @Override
+                        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                            FirebaseUser user = fireAuth.getCurrentUser();
+                            if(user != null){
+                                if(user.isEmailVerified()){
+                                    Toast.makeText(getApplicationContext(), "You're already signed up :-)", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    user.sendEmailVerification();
+                                }
+                            }
+                        }
+                    });
                 }
                 else{
                     //Check to see if user is already registered

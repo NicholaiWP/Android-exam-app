@@ -3,19 +3,19 @@ package com.example.nicholai.examdiaryapp;
 /**
  * Class for pure text notes
  */
-public class Note {
+public class DiaryPage {
 
     private String title;
-    private String noteBody;
+    private String pageBody;
     // private int image;
 
-    public Note(){
+    public DiaryPage(){
    //  // Default constructor required for saving data to firebase realtime database
     }
 
-    public Note(String title, String noteBody) {
+    public DiaryPage(String title, String noteBody) {
         this.title = title;
-        this.noteBody = noteBody;
+        this.pageBody = noteBody;
         // this.image = image;
     }
 
@@ -29,15 +29,15 @@ public class Note {
     }
 
     public String getNoteBody() {
-        return noteBody;
+        return pageBody;
     }
 
     public void setNoteBody(String noteBody) {
-        this.noteBody = noteBody;
+        this.pageBody = noteBody;
     }
 
     @Override
     public String toString() {
-        return title + " " + "title " + " " + "notebody " + noteBody;
+        return title + " " + "title " + " " + "notebody " + pageBody;
     }
 }

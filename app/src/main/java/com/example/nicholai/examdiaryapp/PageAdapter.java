@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.nicholai.examdiaryapp.Fragments.SettingsFragment;
-import com.example.nicholai.examdiaryapp.Singleton.NoteManager;
+import com.example.nicholai.examdiaryapp.Singleton.PageManager;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,79 +20,78 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
+public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder> {
 
     private Context context;
 
-    public NoteAdapter(Context context, ArrayList<Note> noteList) {
+    public PageAdapter(Context context, ArrayList<DiaryPage> noteList) {
         this.context = context;
-        NoteManager.getInstance().notes = noteList;
+        PageManager.getInstance().pages = noteList;
     }
 
     @NonNull
     @Override
-    public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int i) {
+    public PageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int i) {
         LayoutInflater inflater = LayoutInflater.from(context);
          View view = inflater.inflate(R.layout.list_layout, null);
 
-        return new NoteViewHolder(view);
+        return new PageViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final NoteViewHolder noteViewHolder, final int position) {
+    public void onBindViewHolder(@NonNull final PageViewHolder pageViewHolder, final int position) {
     //binds data to view holder, wont return anything
-        final Note note = NoteManager.getInstance().notes.get(position);
-        noteViewHolder.title.setText(note.getTitle());
-        noteViewHolder.bodyText.setText(note.getNoteBody());
+        final DiaryPage page = PageManager.getInstance().pages.get(position);
+        pageViewHolder.title.setText(page.getTitle());
+        pageViewHolder.bodyText.setText(page.getNoteBody());
 
         //Time
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat df = new  SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault());
         String strDate = df.format(date);
-        noteViewHolder.timeView.setText(strDate);
-
-       // noteViewHolder.imageView.setImageDrawable(context.getResources().getDrawable(note.getImage()));
+        pageViewHolder.timeView.setText(strDate);
 
     }
 
     @Override
     public int getItemCount() {
-        return NoteManager.getInstance().notes.size();
+        return PageManager.getInstance().pages.size();
         //returns size of list
     }
 
     public void clear(){
-        NoteManager.getInstance().notes.clear();
-        int sizeOfList = NoteManager.getInstance().notes.size();
+        PageManager.getInstance().pages.clear();
+        int sizeOfList = PageManager.getInstance().pages.size();
         notifyItemRangeRemoved(0, sizeOfList);
     }
 
     public void removeItem(int position){
-        NoteManager.getInstance().notes.remove(position);
+        PageManager.getInstance().pages.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position, NoteManager.getInstance().notes.size());
+        notifyItemRangeChanged(position, PageManager.getInstance().pages.size());
     }
 
-    public Note addItem(Note note){
-        NoteManager.getInstance().notes.add(note);
-        notifyItemInserted(NoteManager.getInstance().notes.size()-1);
 
-        return note;
+    public DiaryPage addItem(DiaryPage page){
+        PageManager.getInstance().pages.add(page);
+        notifyItemInserted(PageManager.getInstance().pages.size()-1);
+
+        return page;
     }
 
-    class NoteViewHolder extends RecyclerView.ViewHolder{
+    class PageViewHolder extends RecyclerView.ViewHolder{
 
         private TextView title;
         private TextView bodyText;
         private TextView timeView;
         private ImageView deleteButton;
 
-        public NoteViewHolder(@NonNull final View itemView) {
+        public PageViewHolder(@NonNull final View itemView) {
             super(itemView);
             timeView = itemView.findViewById(R.id.time);
             title = itemView.findViewById(R.id.myTitle);
             bodyText = itemView.findViewById(R.id.body);
-            deleteButton = itemView.findViewById(R.id.deleNoteButton);
+            deleteButton = itemView.findViewById(R.id.delePageButton);
 
             //making sure text is visible in the notes after switching to dark theme
             if(SettingsFragment.IsDarkState(itemView.getContext())){
@@ -100,7 +99,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 timeView.setTextColor(Color.BLACK);
                 bodyText.setTextColor(Color.BLACK);
             }
-
 
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override

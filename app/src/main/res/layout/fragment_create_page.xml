@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fragments.CreateNoteFragment">
+    tools:context=".Fragments.CreatePageFragment">
 
 
     <android.support.constraint.ConstraintLayout
@@ -13,21 +13,21 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/createTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/Create_note"
+            android:text="@string/Create_page"
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.51"
+            app:layout_constraintHorizontal_bias="0.408"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.031" />
+            app:layout_constraintVertical_bias="0.048" />
 
         <EditText
             android:id="@+id/editTitle"
@@ -35,8 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="236dp"
-            android:autofillHints="@string/Insert_notes"
+            android:layout_marginBottom="408dp"
+            android:autofillHints="@string/insert_page_text"
             android:ems="10"
             android:hint="@string/Title"
             android:inputType="textPersonName"
@@ -44,27 +44,28 @@
             android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.176"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="UnusedAttribute" />
 
 
         <EditText
             android:id="@+id/editBodyText"
-            android:layout_width="550dp"
+            android:layout_width="315dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="100dp"
-            android:autofillHints="@string/insert_note_text"
+            android:layout_marginBottom="248dp"
+            android:autofillHints="@string/insert_page_text"
             android:ems="10"
-            android:hint="@string/insert_note_text"
+            android:hint="@string/insert_page_text"
             android:inputType="textMultiLine"
             android:maxLines="20"
+            android:scrollIndicators="bottom"
             android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.509"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="UnusedAttribute" />
 
@@ -80,9 +81,11 @@
             android:text="@string/done"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.458"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.967" />
+            app:layout_constraintVertical_bias="0.95" />
+
 
     </android.support.constraint.ConstraintLayout>
 

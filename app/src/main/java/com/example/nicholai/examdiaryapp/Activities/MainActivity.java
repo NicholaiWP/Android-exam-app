@@ -3,12 +3,10 @@ package com.example.nicholai.examdiaryapp.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,11 +18,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-
 import java.util.Objects;
-import com.example.nicholai.examdiaryapp.Fragments.CreateNoteFragment;
-import com.example.nicholai.examdiaryapp.Fragments.MyNotesFragment;
+import com.example.nicholai.examdiaryapp.Fragments.CreatePageFragment;
+import com.example.nicholai.examdiaryapp.Fragments.MyPagesFragment;
 import com.example.nicholai.examdiaryapp.Fragments.SettingsFragment;
 import com.example.nicholai.examdiaryapp.Fragments.WelcomeFragment;
 import com.example.nicholai.examdiaryapp.R;
@@ -46,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     //Ids of the different drawer fragments
     public static final int welcomeID = 1;
-    public static final int showNotesID = 2;
-    public static final int createNoteID = 3;
+    public static final int showPagesID = 2;
+    public static final int createPagesID = 3;
 
     //Toolbar ref.
     private Toolbar toolbar;
@@ -73,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-
         //Initializing NavigationView
         //Nav view
         NavigationView navigationView = findViewById(R.id.navigation_view);
@@ -116,20 +111,20 @@ public class MainActivity extends AppCompatActivity {
 
                             case R.id.MyNotes:
                                 //instantiate fragment
-                                fragment = new MyNotesFragment();
+                                fragment = new MyPagesFragment();
                                 //set fragment title
-                                fragmentTitle = getResources().getString(R.string.My_notes);
+                                fragmentTitle = getResources().getString(R.string.My_pages);
                                 //check if current fragment equals selected fragment in the burger menu item
-                                currentFragment = showNotesID;
+                                currentFragment = showPagesID;
                                 break;
 
                             case R.id.CreateNote:
                                 //instantiate fragment
-                                fragment = new CreateNoteFragment();
+                                fragment = new CreatePageFragment();
                                 //check if current fragment equals selected fragment in the burger menu item
-                                currentFragment = createNoteID;
+                                currentFragment = createPagesID;
                                 //set fragment title
-                                fragmentTitle = getResources().getString(R.string.Create_note);
+                                fragmentTitle = getResources().getString(R.string.Create_page);
                                 break;
 
                             case R.id.SignOut:
@@ -194,14 +189,14 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.frame, new WelcomeFragment());
             Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.app_name));
 
-        } else if (currentFragment == showNotesID) {
-            fragmentTransaction.replace(R.id.frame, new MyNotesFragment());
-            Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.My_notes));
+        } else if (currentFragment == showPagesID) {
+            fragmentTransaction.replace(R.id.frame, new MyPagesFragment());
+            Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.My_pages));
 
 
-        } else if (currentFragment == createNoteID) {
-            fragmentTransaction.replace(R.id.frame, new CreateNoteFragment());
-            Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.Create_note));
+        } else if (currentFragment == createPagesID) {
+            fragmentTransaction.replace(R.id.frame, new CreatePageFragment());
+            Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.Create_page));
 
         } else {
             fragmentTransaction.replace(R.id.frame, new WelcomeFragment());
@@ -311,6 +306,16 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //if the stack of fragments are higher than 0, pop stack and go back to previously selected fragment
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
 
