@@ -29,6 +29,8 @@
     <string name="reset_guide">Enter your email, press the \'Reset\' button and check your mail. If you can not find it, look in your \'Unwanted mail\' section</string>
     <string name="deletebutton">deleteButton</string>
     <string name="done">Create</string>
-    <string name="help">To get started navigate to \'Create diary page\'. \n \nYou will find all of your diary pages under the section \'My diary pages\'. Swipe left to view the pages you have created</string>
+    <string name="help">To get started navigate to \'Create diary page\'. \nYou will find all of your diary pages under the section \'My diary pages\'. \nSwipe left to view the pages you have created</string>
     <string name="introimage">introImage</string>
+    <string name="action_shop">Shop</string>
+    <string name="soon">Coming soon</string>
 </resources>

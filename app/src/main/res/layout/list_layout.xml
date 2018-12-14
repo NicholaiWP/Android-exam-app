@@ -31,7 +31,7 @@
                 android:textSize="16sp" />
 
             <ImageView
-                android:id="@+id/delePageButton"
+                android:id="@+id/deletePageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="300dp"
@@ -65,7 +65,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:ems="10"
-                android:lines="40"
+                android:lines="28"
+                android:maxLines="28"
                 android:text="" />
 
         </RelativeLayout>

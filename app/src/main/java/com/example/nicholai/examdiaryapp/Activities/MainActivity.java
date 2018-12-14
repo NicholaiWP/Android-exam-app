@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 import java.util.Objects;
 import com.example.nicholai.examdiaryapp.Fragments.CreatePageFragment;
 import com.example.nicholai.examdiaryapp.Fragments.MyPagesFragment;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     //variable to control the fragment switches
     int currentFragment = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,13 +63,11 @@ public class MainActivity extends AppCompatActivity {
         updateUI(isDarkTheme);
         setContentView(R.layout.activity_main);
 
-
         //check to see if the key 'fragment' exists, if it does retrieve the key
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey("fragment")) {
                 currentFragment = savedInstanceState.getInt("fragment");
             }
-
         }
         //Initializing NavigationView
         //Nav view
@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
         // doing the fragment transaction here - replacing frame with navigation drawer fragment elements -
 
         if (currentFragment == welcomeID) {
+            Toast.makeText(getApplicationContext(), "Welcome back", Toast.LENGTH_SHORT).show();
             fragmentTransaction.replace(R.id.frame, new WelcomeFragment());
             Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.app_name));
 
@@ -290,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Check if user clicks on settings
+     * Check if user clicks on menu item
      * @param item
      * @return
      */
@@ -302,7 +303,10 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
                 Intent intent = new Intent(this, PreferenceActivity.class);
                 startActivityForResult(intent,RESULT_CODE_PREFERENCES);
-
+            return true;
+        }
+        else if(id == R.id.action_shop){
+            Toast.makeText(getApplicationContext(), "Coming soon", Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);

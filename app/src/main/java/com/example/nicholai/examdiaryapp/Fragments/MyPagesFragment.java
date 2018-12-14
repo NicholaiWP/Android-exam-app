@@ -55,7 +55,7 @@ public class MyPagesFragment extends Fragment {
         adapter = new PageAdapter(view.getContext(), PageManager.getInstance().pages);
         recyclerView.setAdapter(adapter);
 
-        ValueEventListener postListener = new ValueEventListener() {
+        final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 adapter.clear();

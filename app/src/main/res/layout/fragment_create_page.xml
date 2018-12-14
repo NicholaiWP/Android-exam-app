@@ -24,18 +24,19 @@
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.408"
+            app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.048" />
+            app:layout_constraintVertical_bias="0.043" />
 
         <EditText
             android:id="@+id/editTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="261dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="408dp"
+            android:layout_marginBottom="8dp"
             android:autofillHints="@string/insert_page_text"
             android:ems="10"
             android:hint="@string/Title"
@@ -44,30 +45,50 @@
             android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.176"
+            app:layout_constraintHorizontal_bias="0.289"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.247"
             tools:ignore="UnusedAttribute" />
 
 
-        <EditText
-            android:id="@+id/editBodyText"
-            android:layout_width="315dp"
-            android:layout_height="wrap_content"
+        <ScrollView
+            android:id="@+id/scroll"
+            android:layout_width="wrap_content"
+            android:layout_height="237dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="248dp"
-            android:autofillHints="@string/insert_page_text"
-            android:ems="10"
-            android:hint="@string/insert_page_text"
-            android:inputType="textMultiLine"
-            android:maxLines="20"
-            android:scrollIndicators="bottom"
-            android:text=""
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.509"
+            app:layout_constraintHorizontal_bias="0.508"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="UnusedAttribute" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.652">
+
+            <EditText
+                android:id="@+id/editBodyText"
+                android:layout_width="291dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="172dp"
+                android:autofillHints="@string/insert_page_text"
+                android:ems="10"
+                android:hint="@string/insert_page_text"
+                android:inputType="textMultiLine"
+                android:lines="28"
+                android:maxLines="28"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.571"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="UnusedAttribute" />
+
+        </ScrollView>
+
 
         <Button
             android:id="@+id/createNote"

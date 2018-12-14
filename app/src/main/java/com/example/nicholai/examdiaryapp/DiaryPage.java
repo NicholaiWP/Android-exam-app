@@ -1,12 +1,13 @@
 package com.example.nicholai.examdiaryapp;
 
 /**
- * Class for pure text notes
+ * Class for pure text notes, with a title and text body
  */
 public class DiaryPage {
 
     private String title;
     private String pageBody;
+    //TODO: add image functionality to a diary page (other class is needed)
     // private int image;
 
     public DiaryPage(){

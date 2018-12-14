@@ -91,7 +91,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
             timeView = itemView.findViewById(R.id.time);
             title = itemView.findViewById(R.id.myTitle);
             bodyText = itemView.findViewById(R.id.body);
-            deleteButton = itemView.findViewById(R.id.delePageButton);
+            deleteButton = itemView.findViewById(R.id.deletePageButton);
 
             //making sure text is visible in the notes after switching to dark theme
             if(SettingsFragment.IsDarkState(itemView.getContext())){
@@ -99,31 +99,30 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
                 timeView.setTextColor(Color.BLACK);
                 bodyText.setTextColor(Color.BLACK);
             }
+                deleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
+                        alertDialogBuilder.setMessage("Are you sure, You want to delete this note?");
+                        alertDialogBuilder.setPositiveButton("Yes",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface arg0, int arg1) {
+                                        removeItem(getAdapterPosition());
+                                    }});
 
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
-                    alertDialogBuilder.setMessage("Are you sure, You want to delete this note?");
-                    alertDialogBuilder.setPositiveButton("Yes",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    removeItem(getAdapterPosition());
-                                }});
+                        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int arg0) {
+                                dialog.cancel();
+                            }
+                        });
 
-                    alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int arg0) {
-                            dialog.cancel();
-                        }
-                    });
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
 
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
-
-                }
-            });
+                    }
+                });
+            }
         }
     }
-}

@@ -4,6 +4,9 @@ import android.app.Application;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * run before any activity
+ */
 public class MyApplication extends Application {
 
     /**

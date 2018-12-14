@@ -56,17 +56,25 @@
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/body"
-                android:layout_width="400dp"
-                android:layout_height="wrap_content"
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="345dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="25dp"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="80dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:ems="10"
-                android:lines="40"
-                android:text="" />
+                android:layout_marginEnd="8dp">
+
+                <TextView
+                    android:id="@+id/body"
+                    android:layout_width="400dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:lines="28"
+                    android:maxLines="28"
+                    android:text="" />
+
+            </ScrollView>
+
 
         </RelativeLayout>
 
