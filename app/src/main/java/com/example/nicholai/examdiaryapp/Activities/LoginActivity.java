@@ -19,7 +19,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -28,9 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth fireAuth;
     private EditText editTextEmail, editTextPassword;
     private ProgressBar loadProgressBar;
-    private Button registerUser;
-    private Button loginButton;
-    private Button forgotButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +57,9 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.password);
 
         //listen on button clicks
-        registerUser = findViewById(R.id.registerUser);
-        loginButton = findViewById(R.id.login);
-        forgotButton = findViewById(R.id.forgotPassword);
+        Button registerUser = findViewById(R.id.registerUser);
+        Button loginButton = findViewById(R.id.login);
+        Button forgotButton = findViewById(R.id.forgotPassword);
 
         //(defensive programming, check if buttons exist prior to orientation.
         // Not needed with either of the buttons though
@@ -246,6 +242,7 @@ public class LoginActivity extends AppCompatActivity {
                         editTextEmail.getText().clear();
                     }
                     else {
+                        if(task.getException() != null)
                         Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }

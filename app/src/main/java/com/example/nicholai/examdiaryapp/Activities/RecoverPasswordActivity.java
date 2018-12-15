@@ -18,8 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class RecoverPasswordActivity extends AppCompatActivity {
 
     private EditText emailText;
-    private Button resetPasswordButton;
-    private Button backButton;
     private FirebaseAuth fireAuth;
 
     @Override
@@ -29,8 +27,8 @@ public class RecoverPasswordActivity extends AppCompatActivity {
 
         //Find ids of buttons and email input field
         emailText = findViewById(R.id.edt_reset_email);
-        resetPasswordButton = findViewById(R.id.btn_reset_password);
-        backButton = findViewById(R.id.btn_back);
+        Button resetPasswordButton = findViewById(R.id.btn_reset_password);
+        Button backButton = findViewById(R.id.btn_back);
 
         //get firebase authentication instance
         fireAuth = FirebaseAuth.getInstance();

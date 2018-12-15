@@ -2,22 +2,9 @@ package com.example.nicholai.examdiaryapp.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.TextView;
-import android.widget.ToggleButton;
-
-import com.example.nicholai.examdiaryapp.Activities.MainActivity;
 import com.example.nicholai.examdiaryapp.Fragments.SettingsFragment;
-import com.example.nicholai.examdiaryapp.Fragments.WelcomeFragment;
 import com.example.nicholai.examdiaryapp.R;
 
 public class PreferenceActivity extends Activity {

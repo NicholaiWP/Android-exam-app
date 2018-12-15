@@ -13,6 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.nicholai.examdiaryapp.Fragments.SettingsFragment;
 import com.example.nicholai.examdiaryapp.Singleton.PageManager;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,21 +38,21 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
     @Override
     public PageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int i) {
         LayoutInflater inflater = LayoutInflater.from(context);
-         View view = inflater.inflate(R.layout.list_layout, null);
+        View view = inflater.inflate(R.layout.list_layout, null);
 
         return new PageViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final PageViewHolder pageViewHolder, final int position) {
-    //binds data to view holder, wont return anything
+        //binds data to view holder, wont return anything
         final DiaryPage page = PageManager.getInstance().pages.get(position);
         pageViewHolder.title.setText(page.getTitle());
         pageViewHolder.bodyText.setText(page.getNoteBody());
 
         //Time
         Date date = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new  SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault());
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault());
         String strDate = df.format(date);
         pageViewHolder.timeView.setText(strDate);
 
@@ -59,24 +64,53 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
         //returns size of list
     }
 
-    public void clear(){
+    public void clear() {
         PageManager.getInstance().pages.clear();
         int sizeOfList = PageManager.getInstance().pages.size();
         notifyItemRangeRemoved(0, sizeOfList);
     }
 
-    public void removeItem(int position){
+    /**
+     * I couldnt find an optimal solution to delete an item in the database,
+     * So I first remove it from the application, then remove the database and re-add
+     * The information to the database from the array list of diary pages. A better solution would be to
+     * just delete a diary page based on a ID or similar, but i did not know how to do this.
+     * @param position specifies the position of the diary page
+     */
+    private void removeItem(int position) {
         PageManager.getInstance().pages.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, PageManager.getInstance().pages.size());
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(PageManager.PAGE_PATH);
+
+        ValueEventListener val = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    postSnapshot.getRef().removeValue();
+
+                }
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        ref.addListenerForSingleValueEvent(val);
+
+        for (int i = 0; i < PageManager.getInstance().pages.size(); i++) {
+            ref.push().setValue(new DiaryPage(PageManager.getInstance().pages.get(i).getTitle(), PageManager.getInstance().pages.get(i).getNoteBody()));
+        }
+
+        ref.removeEventListener(val);
     }
 
 
-    public DiaryPage addItem(DiaryPage page){
+    public void addItem(DiaryPage page){
         PageManager.getInstance().pages.add(page);
         notifyItemInserted(PageManager.getInstance().pages.size()-1);
-
-        return page;
     }
 
     class PageViewHolder extends RecyclerView.ViewHolder{
@@ -108,8 +142,11 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface arg0, int arg1) {
-                                        removeItem(getAdapterPosition());
-                                    }});
+                                            removeItem(getAdapterPosition());
+
+                                    }
+                        });
+
 
                         alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
