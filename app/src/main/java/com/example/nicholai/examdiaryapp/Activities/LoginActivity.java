@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.example.nicholai.examdiaryapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,7 +19,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
-
+/**
+ * This class handles all the login functionality using firebase authentication
+ */
 public class LoginActivity extends AppCompatActivity {
 
 
@@ -46,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         //get the firebase authentication instance
         fireAuth = FirebaseAuth.getInstance();
 
+        //if user is recognized as logged in - start MainActivity
         if(fireAuth.getCurrentUser() != null){
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
@@ -119,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-            //check is the email address entered by the user matches the one registered in firebase authentication
+            //check is the email address entered by the user matches
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             editTextEmail.setError("Enter a valid Email");
             editTextEmail.requestFocus();
@@ -201,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            //check is the email address entered by the user matches the one registered in firebase authentication
+            //check is the email address entered by the user matches
             if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                 editTextEmail.setError("Enter a valid Email");
                 editTextEmail.requestFocus();

@@ -32,6 +32,7 @@ public class MyApplication extends Application {
         //Initialize leak canary
       // watcher = LeakCanary.install(this);
 
+        //
         FirebaseApp.initializeApp(this);
         if (!FirebaseApp.getApps(this).isEmpty()) {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);

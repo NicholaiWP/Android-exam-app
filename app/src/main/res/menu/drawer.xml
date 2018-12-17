@@ -11,31 +11,32 @@
         <!--Add icons to menu-->
    <item android:title="@string/Pages">
        <menu>
+           <group android:checkableBehavior="single">
+               <item
+                   android:id="@+id/CreateNote"
+                   android:icon="@android:drawable/ic_input_add"
+                   android:checked="false"
+                   android:title="@string/Create_page" />
 
-           <item
-               android:id="@+id/CreateNote"
-               android:icon="@android:drawable/ic_input_add"
-               android:checked="false"
-               android:title="@string/Create_page" />
-
-           <item
-               android:id="@+id/MyNotes"
-               android:icon="@android:drawable/ic_menu_edit"
-               android:checked="false"
-               android:title="@string/My_pages" />
+               <item
+                   android:id="@+id/MyNotes"
+                   android:icon="@android:drawable/ic_menu_edit"
+                   android:checked="false"
+                   android:title="@string/My_pages" />
+           </group>
        </menu>
    </item>
-
         <item android:title="@string/sign_out">
             <menu>
-                <item
-                    android:id="@+id/SignOut"
-                    android:icon="@android:drawable/ic_lock_lock"
-                    android:checked="false"
-                    android:title="@string/close_diary" />
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/SignOut"
+                        android:icon="@android:drawable/ic_lock_power_off"
+                        android:checked="false"
+                        android:title="@string/close_diary" />
+                </group>
             </menu>
         </item>
-
 
     </group>
 

@@ -1,7 +1,7 @@
 package com.example.nicholai.examdiaryapp.Fragments;
 
 
-import android.content.Context;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,14 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.example.nicholai.examdiaryapp.Activities.MainActivity;
 import com.example.nicholai.examdiaryapp.DiaryPage;
 import com.example.nicholai.examdiaryapp.PageAdapter;
 import com.example.nicholai.examdiaryapp.R;
 import com.example.nicholai.examdiaryapp.Singleton.PageManager;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This class inflates the layout showing all diary pages created by a user. The layout is here modified by the PageAdapter class which uses
+ * RecyclerView functionality
  */
 public class MyPagesFragment extends Fragment {
 
@@ -42,17 +39,20 @@ public class MyPagesFragment extends Fragment {
         // Inflates the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_pages, container, false);
 
+        //get database reference
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference().child(PageManager.PAGE_PATH);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        //Recycler view will have a fixed size, so increase or decrease doesnt have an influence on it
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        //Recycler view will have a fixed size, so increase or decrease does not have an influence on it
         recyclerView.setHasFixedSize(true);
-        //recycleview design layout
+        //recyclerView design layout, make the recyclerView have a horizontal swipe direction when there's multiple entities of a diary page
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(),  LinearLayoutManager.HORIZONTAL, false));
         adapter = new PageAdapter(view.getContext(), PageManager.getInstance().pages);
+        //set recyclerView's adapter to my adapter
         recyclerView.setAdapter(adapter);
 
+        //retrieve diary page data with Firebase's Real-time database using a snapshot
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -61,6 +61,7 @@ public class MyPagesFragment extends Fragment {
                     DiaryPage page = postSnapshot.getValue(DiaryPage.class);
                     adapter.addItem(page);
                 }
+                //notify adapter of changes
                 adapter.notifyDataSetChanged();
             }
 

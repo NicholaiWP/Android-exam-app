@@ -33,6 +33,7 @@ public class SettingsFragment extends PreferenceFragment {
             toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    //save theme using shared preferences and register its state change
                     SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getView().getContext()).edit();
                     editor.putBoolean(DARK_STATE,isChecked);
                     editor.apply();

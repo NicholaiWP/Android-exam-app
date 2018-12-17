@@ -34,8 +34,9 @@ public class CreatePageFragment extends Fragment {
         // Inflate the layout for this fragment
     view = inflater.inflate(R.layout.fragment_create_page, container, false);
 
+    //get firebase instance
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-
+    // set database reference
          myRef = database.getReference().child(PageManager.PAGE_PATH);
 
          editTitle = view.findViewById(R.id.editTitle);
@@ -45,6 +46,7 @@ public class CreatePageFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //use of the database reference to generate IDs upon the value that I push to the database (a diary page).
                 myRef.push().setValue(new DiaryPage(editTitle.getText().toString(), editBody.getText().toString()));
                 Toast.makeText(view.getContext(),"Page created", Toast.LENGTH_SHORT).show();
                 //clear for previous text input

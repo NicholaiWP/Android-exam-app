@@ -25,6 +25,9 @@ import java.util.Date;
 import java.util.Locale;
 
 
+/**
+ * Class used to handle functionality of the recycle view and its data found in the layout of 'MyPagesFragment'.
+ */
 public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder> {
 
     private Context context;
@@ -32,6 +35,13 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
     public PageAdapter(Context context, ArrayList<DiaryPage> noteList) {
         this.context = context;
         PageManager.getInstance().pages = noteList;
+    }
+
+    /**Empty constructor
+     *
+     */
+    public PageAdapter(){
+
     }
 
     @NonNull
@@ -43,9 +53,15 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
         return new PageViewHolder(view);
     }
 
+    /**
+     * This method calls onBindViewHolder(ViewHolder, int) to update the RecyclerView.ViewHolder contents with the item at the given position
+     * and also sets up some fields to be used by RecyclerView.
+     * @param pageViewHolder holds reference to UI
+     * @param position keeps track of a diary page in the view holder
+     */
     @Override
     public void onBindViewHolder(@NonNull final PageViewHolder pageViewHolder, final int position) {
-        //binds data to view holder, wont return anything
+        //binds data to view holder
         final DiaryPage page = PageManager.getInstance().pages.get(position);
         pageViewHolder.title.setText(page.getTitle());
         pageViewHolder.bodyText.setText(page.getNoteBody());
@@ -58,28 +74,38 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
 
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     * @return returns the size of the collection used in the recycler view
+     */
     @Override
     public int getItemCount() {
         return PageManager.getInstance().pages.size();
         //returns size of list
     }
 
+    /**
+     * Clears list of data
+     */
     public void clear() {
         PageManager.getInstance().pages.clear();
         int sizeOfList = PageManager.getInstance().pages.size();
+      //  Notify any registered observers that the itemCount items previously located at positionStart have been removed from the data set.
         notifyItemRangeRemoved(0, sizeOfList);
     }
 
     /**
-     * I couldnt find an optimal solution to delete an item in the database,
-     * So I first remove it from the application, then remove the database and re-add
+     * I could not find an optimal solution to delete an item in the database,
+     * So I first remove it from the application (the diary note), then remove the database and re-add
      * The information to the database from the array list of diary pages. A better solution would be to
      * just delete a diary page based on a ID or similar, but i did not know how to do this.
      * @param position specifies the position of the diary page
      */
-    private void removeItem(int position) {
+    public void removeItem(int position) {
         PageManager.getInstance().pages.remove(position);
+        //Notify any registered observers that the item previously located at position has been removed from the data set.
         notifyItemRemoved(position);
+        //Notify any registered observers that the itemCount items starting at position positionStart have changed.
         notifyItemRangeChanged(position, PageManager.getInstance().pages.size());
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(PageManager.PAGE_PATH);
 
@@ -90,6 +116,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
                     postSnapshot.getRef().removeValue();
 
                 }
+                //Notify any registered observers that the data set has changed.
                 notifyDataSetChanged();
             }
 
@@ -108,12 +135,20 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
     }
 
 
+    /**
+     * method for Adding a diary page
+     * @param page
+     */
     public void addItem(DiaryPage page){
         PageManager.getInstance().pages.add(page);
+        //Notify any registered observers that the item reflected at position has been newly inserted.
         notifyItemInserted(PageManager.getInstance().pages.size()-1);
     }
 
-    class PageViewHolder extends RecyclerView.ViewHolder{
+    /**
+     * Holds references to the layout's UI elements used by the recycler view
+     */
+   public class PageViewHolder extends RecyclerView.ViewHolder{
 
         private TextView title;
         private TextView bodyText;
@@ -143,7 +178,6 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
                                     @Override
                                     public void onClick(DialogInterface arg0, int arg1) {
                                             removeItem(getAdapterPosition());
-
                                     }
                         });
 

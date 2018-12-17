@@ -7,8 +7,6 @@ public class DiaryPage {
 
     private String title;
     private String pageBody;
-    //TODO: add image functionality to a diary page (other class is needed)
-    // private int image;
 
     public DiaryPage(){
    //  // Default constructor required for saving data to firebase realtime database

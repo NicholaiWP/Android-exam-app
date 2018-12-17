@@ -46,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
     public static final int showPagesID = 2;
     public static final int createPagesID = 3;
 
-    //Toolbar ref.
-    private Toolbar toolbar;
-
     //variable to control the fragment switches
     int currentFragment = 0;
 
@@ -74,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.navigation_view);
 
         //toolbar variable
-        toolbar = findViewById(R.id.toolbar);
+        //Toolbar ref.
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -87,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                         //Checking if the item is in checked state or not, if not make it in checked state
-                        if (menuItem.isChecked())
-                            menuItem.setChecked(false);
+                        if (!menuItem.isChecked())
+                            menuItem.setChecked(true);
                         else
                             menuItem.setChecked(true);
 
@@ -185,16 +183,16 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         // doing the fragment transaction here - replacing frame with navigation drawer fragment elements -
 
+        //Check if current fragment equals the id of the fragment that I want to perform a fragment transaction on
         if (currentFragment == welcomeID) {
             Toast.makeText(getApplicationContext(), "Welcome back", Toast.LENGTH_SHORT).show();
             fragmentTransaction.replace(R.id.frame, new WelcomeFragment());
             Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.app_name));
-
+            //Check if current fragment equals the id of the fragment that I want to perform a fragment transaction on
         } else if (currentFragment == showPagesID) {
             fragmentTransaction.replace(R.id.frame, new MyPagesFragment());
             Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.My_pages));
-
-
+            //Check if current fragment equals the id of the fragment that I want to perform a fragment transaction on
         } else if (currentFragment == createPagesID) {
             fragmentTransaction.replace(R.id.frame, new CreatePageFragment());
             Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.Create_page));
@@ -215,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Sign user out using firebase authentication
+     * Sign user out using firebase authentication. I put this function here as this activity has the option to log out in its layout
      */
     private void signOut(){
         AuthUI.getInstance()
@@ -287,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode==RESULT_CODE_PREFERENCES) //this code means we came back from settings
         {
+            //check if dark state
             boolean isDarkTheme = SettingsFragment.IsDarkState(this);
             updateUI(isDarkTheme);
 
@@ -301,6 +300,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        //find it of menu item
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
@@ -308,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent,RESULT_CODE_PREFERENCES);
             return true;
         }
+        //Show toast, this will be replaced with a new fragment or activity at a later point with shop items
         else if(id == R.id.action_shop){
             Toast.makeText(getApplicationContext(), "Coming soon", Toast.LENGTH_SHORT).show();
             return true;
@@ -317,12 +318,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //if the stack of fragments are higher than 0, pop stack and go back to previously selected fragment
+        //if the stack of fragments are higher than 0, pop stack and go back to previously selected fragment.
         if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }
+
     }
 }
 

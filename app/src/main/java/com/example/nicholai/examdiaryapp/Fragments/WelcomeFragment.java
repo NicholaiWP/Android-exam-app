@@ -23,6 +23,7 @@ public class WelcomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        //This fragment's layout purely consists of text UI and an image and provides the app no additional functionality.
         return inflater.inflate(R.layout.fragment_welcome, container, false);
 
     }
