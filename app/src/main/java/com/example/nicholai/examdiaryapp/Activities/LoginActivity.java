@@ -34,16 +34,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-/* //For using firebase's standard UI.
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(Collections.singletonList(
-                                new AuthUI.IdpConfig.EmailBuilder().build()))
-                        .build(),
-                RC_SIGN_IN);
-*/
         //get the firebase authentication instance
         fireAuth = FirebaseAuth.getInstance();
 
