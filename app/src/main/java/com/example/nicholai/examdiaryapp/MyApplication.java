@@ -1,11 +1,9 @@
 package com.example.nicholai.examdiaryapp;
 
 import android.app.Application;
-import android.content.Context;
+
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 
 /**
  * run before any activity

@@ -2,9 +2,9 @@ package com.example.nicholai.examdiaryapp.Activities;
 
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseUser;
  * This class handles all the login functionality using firebase authentication
  */
 public class LoginActivity extends AppCompatActivity {
-
 
     private FirebaseAuth fireAuth;
     private EditText editTextEmail, editTextPassword;

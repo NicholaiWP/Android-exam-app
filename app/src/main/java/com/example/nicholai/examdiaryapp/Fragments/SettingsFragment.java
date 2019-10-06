@@ -1,12 +1,12 @@
 package com.example.nicholai.examdiaryapp.Fragments;
 
 
+import androidx.fragment.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 import com.example.nicholai.examdiaryapp.R;

@@ -1,12 +1,10 @@
 package com.example.nicholai.examdiaryapp.Fragments;
 
 
-
+import androidx.fragment.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 /**
  * This class inflates the layout showing all diary pages created by a user. The layout is here modified by the PageAdapter class which uses
  * RecyclerView functionality
@@ -34,7 +33,7 @@ public class MyPagesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflates the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_pages, container, false);
