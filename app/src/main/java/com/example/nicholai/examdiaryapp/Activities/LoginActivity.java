@@ -52,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         Button loginButton = findViewById(R.id.login);
         Button forgotButton = findViewById(R.id.forgotPassword);
 
-        //(defensive programming, check if buttons exist prior to orientation.
         // Not needed with either of the buttons though
         if(registerUser != null){
             registerUser.setOnClickListener(new View.OnClickListener() {
@@ -226,8 +225,6 @@ public class LoginActivity extends AppCompatActivity {
                         //if user signs out manually, I don't want the previous text to still be there
                         Toast.makeText(getApplicationContext(), "Sign in successful", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                        //clear all activities on top of the stack
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
                         editTextPassword.getText().clear();
                         editTextEmail.getText().clear();

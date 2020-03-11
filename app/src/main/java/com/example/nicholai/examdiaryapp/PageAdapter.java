@@ -102,44 +102,18 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
      * just delete a diary page based on a ID or similar, but i did not know how to do this.
      * @param position specifies the position of the diary page
      */
-    public void removeItem(int position) {
+    private void removeItem(final int position) {
         PageManager.getInstance().pages.remove(position);
         //Notify any registered observers that the item previously located at position has been removed from the data set.
         notifyItemRemoved(position);
         //Notify any registered observers that the itemCount items starting at position positionStart have changed.
         notifyItemRangeChanged(position, PageManager.getInstance().pages.size());
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(PageManager.PAGE_PATH);
 
-        ValueEventListener val = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    postSnapshot.getRef().removeValue();
-
-                }
-                //Notify any registered observers that the data set has changed.
-                notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-        ref.addListenerForSingleValueEvent(val);
-
-        for (int i = 0; i < PageManager.getInstance().pages.size(); i++) {
-            ref.push().setValue(new DiaryPage(PageManager.getInstance().pages.get(i).getTitle(), PageManager.getInstance().pages.get(i).getNoteBody()));
-        }
-
-        ref.removeEventListener(val);
+        //TODO:delete properly
     }
 
 
-    /**
-     * method for Adding a diary page
-     * @param page
-     */
+
     public void addItem(DiaryPage page){
         PageManager.getInstance().pages.add(page);
         //Notify any registered observers that the item reflected at position has been newly inserted.
@@ -149,19 +123,18 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
     /**
      * Holds references to the layout's UI elements used by the recycler view
      */
-   public class PageViewHolder extends RecyclerView.ViewHolder{
+    class PageViewHolder extends RecyclerView.ViewHolder{
 
         private TextView title;
         private TextView bodyText;
         private TextView timeView;
-        private ImageView deleteButton;
 
-        public PageViewHolder(@NonNull final View itemView) {
+        PageViewHolder(@NonNull final View itemView) {
             super(itemView);
             timeView = itemView.findViewById(R.id.time);
             title = itemView.findViewById(R.id.myTitle);
             bodyText = itemView.findViewById(R.id.body);
-            deleteButton = itemView.findViewById(R.id.deletePageButton);
+            ImageView deleteButton = itemView.findViewById(R.id.deletePageButton);
 
             //making sure text is visible in the notes after switching to dark theme
             if(SettingsFragment.IsDarkState(itemView.getContext())){

@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.nicholai.examdiaryapp.Singleton.PageManager;
 import com.google.android.material.navigation.NavigationView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -54,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //save theme code
         boolean isDarkTheme = SettingsFragment.IsDarkState(this);
         //Needs to update theme before setting content view to avoid content view being set first
@@ -222,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
                         FirebaseAuth.getInstance().signOut();
+                        PageManager.getInstance().pages.clear();
                         finish();
                         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(i);

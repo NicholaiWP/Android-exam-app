@@ -18,14 +18,13 @@ import com.example.nicholai.examdiaryapp.R;
 public class SettingsFragment extends PreferenceFragment {
 
     private static String DARK_STATE = "Dark";
-
+    private Context mContext;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //add layout from 'prefs' in the xml directory folder
         addPreferencesFromResource(R.xml.prefs);
-
         //theme toggle code
         if(getView() != null){
             ToggleButton toggleButton = getView().findViewById(R.id.themeToggler);
@@ -34,15 +33,12 @@ public class SettingsFragment extends PreferenceFragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     //save theme using shared preferences and register its state change
-                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getView().getContext()).edit();
+                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
                     editor.putBoolean(DARK_STATE,isChecked);
                     editor.apply();
                 }
-
             });
         }
-
-
     }
      // Method used to save theme state
     public static boolean IsDarkState(Context context)
@@ -50,4 +46,9 @@ public class SettingsFragment extends PreferenceFragment {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(DARK_STATE, false);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 }

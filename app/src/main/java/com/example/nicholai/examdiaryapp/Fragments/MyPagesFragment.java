@@ -1,6 +1,8 @@
 package com.example.nicholai.examdiaryapp.Fragments;
 
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,21 +12,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.nicholai.examdiaryapp.DiaryPage;
+import com.example.nicholai.examdiaryapp.Interfaces.IPageChangedAdapter;
 import com.example.nicholai.examdiaryapp.PageAdapter;
 import com.example.nicholai.examdiaryapp.R;
 import com.example.nicholai.examdiaryapp.Singleton.PageManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
 /**
  * This class inflates the layout showing all diary pages created by a user. The layout is here modified by the PageAdapter class which uses
  * RecyclerView functionality
  */
-public class MyPagesFragment extends Fragment {
+public class MyPagesFragment extends Fragment implements IPageChangedAdapter {
 
     private PageAdapter adapter;
 
@@ -38,9 +42,6 @@ public class MyPagesFragment extends Fragment {
         // Inflates the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_pages, container, false);
 
-        //get database reference
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference().child(PageManager.PAGE_PATH);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         //Recycler view will have a fixed size, so increase or decrease does not have an influence on it
@@ -51,31 +52,14 @@ public class MyPagesFragment extends Fragment {
         //set recyclerView's adapter to my adapter
         recyclerView.setAdapter(adapter);
 
-        //retrieve diary page data with Firebase's Real-time database using a snapshot
-        final ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                adapter.clear();
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    DiaryPage page = postSnapshot.getValue(DiaryPage.class);
-                    adapter.addItem(page);
-                }
-                //notify adapter of changes
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w("test", "loadPost:onCancelled", databaseError.toException());
-                // ...
-            }
-        };
-
-        myRef.addListenerForSingleValueEvent(postListener);
+        PageManager.getInstance().setSomeEventListener(this);
 
         return view;
 
     }
 
+    @Override
+    public void onPagesChanged() {
+        adapter.notifyDataSetChanged();
+    }
 }

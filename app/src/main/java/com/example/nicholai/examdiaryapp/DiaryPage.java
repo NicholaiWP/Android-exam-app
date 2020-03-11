@@ -5,8 +5,8 @@ package com.example.nicholai.examdiaryapp;
  */
 public class DiaryPage {
 
-    private String title;
-    private String pageBody;
+    public String title;
+    public String pageBody;
 
     public DiaryPage(){
    //  // Default constructor required for saving data to firebase realtime database
@@ -15,11 +15,10 @@ public class DiaryPage {
     public DiaryPage(String title, String noteBody) {
         this.title = title;
         this.pageBody = noteBody;
-        // this.image = image;
     }
 
 
-    public String getTitle() {
+    String getTitle() {
         return title;
     }
 
@@ -27,7 +26,7 @@ public class DiaryPage {
         this.title = title;
     }
 
-    public String getNoteBody() {
+    String getNoteBody() {
         return pageBody;
     }
 
