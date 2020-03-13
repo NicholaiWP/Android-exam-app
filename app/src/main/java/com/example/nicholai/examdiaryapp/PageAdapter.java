@@ -6,17 +6,31 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.nicholai.examdiaryapp.Fragments.SettingsFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Comment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -26,11 +40,14 @@ import java.util.Locale;
 public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder> {
 
     private Context context;
-    private ArrayList<DiaryPage> pages = new ArrayList<>();
+    private ArrayList<DiaryPage> pages;
+    private ArrayList<String> keys;
 
-    public PageAdapter(Context context, ArrayList<DiaryPage> noteList) {
+    public PageAdapter(Context context, ArrayList<DiaryPage> noteList, ArrayList<String> k) {
         this.context = context;
         pages = noteList;
+        keys = k;
+
     }
 
     /**Empty constructor
@@ -80,6 +97,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
         //returns size of list
     }
 
+
     /**
      * Clears list of data
      */
@@ -104,7 +122,19 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
         //Notify any registered observers that the itemCount items starting at position positionStart have changed.
         notifyItemRangeChanged(position, pages.size());
 
-
+        FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                String uid = firebaseAuth.getUid();
+                if (uid == null){
+                    return;
+                }
+                String key = keys.get(position);
+                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef1 = database.getReference().child(uid).child("pages");
+                myRef1.child(key).removeValue();
+            }
+        });
     }
 
 
