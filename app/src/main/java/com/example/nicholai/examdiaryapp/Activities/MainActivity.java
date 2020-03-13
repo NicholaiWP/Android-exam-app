@@ -8,7 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.nicholai.examdiaryapp.Singleton.PageManager;
+
 import com.google.android.material.navigation.NavigationView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -223,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
                         FirebaseAuth.getInstance().signOut();
-                        PageManager.getInstance().pages.clear();
                         finish();
                         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(i);
