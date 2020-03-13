@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.example.nicholai.examdiaryapp.DiaryPage;
 import com.example.nicholai.examdiaryapp.R;
-import com.example.nicholai.examdiaryapp.Singleton.PageManager;
 import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
