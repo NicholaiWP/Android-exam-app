@@ -9,15 +9,11 @@
     <string name="Theme_explanation">Changes the theme to a dark theme</string>
     <string name="insert_page_text">Write down your thoughts</string>
     <string name="Title">Title</string>
-    <string name="Insert_pages">Insert pages</string>
     <string name="Pages">View and create diary page</string>
     <string name="sign_out">Other options</string>
     <string name="close_diary">Log out</string>
     <string name="Home">Home</string>
-    <string name="Welcome_To">~ A glimpse of Life!</string>
     <string name="login">Login with existing account</string>
-    <string name="signUp">Sign up</string>
-    <string name="glimpselogo">glimpseLogo</string>
     <string name="registerUser">Register user</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
@@ -32,5 +28,4 @@
     <string name="help">To get started navigate to \'Create diary page\'. \nYou will find all of your diary pages under the section \'My diary pages\'. \nSwipe left to view the pages you have created</string>
     <string name="introimage">introImage</string>
     <string name="action_shop">Shop</string>
-    <string name="soon">Coming soon</string>
 </resources>

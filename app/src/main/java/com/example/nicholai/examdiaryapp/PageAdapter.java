@@ -12,12 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.nicholai.examdiaryapp.Fragments.SettingsFragment;
-import com.example.nicholai.examdiaryapp.Singleton.PageManager;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,10 +26,11 @@ import java.util.Locale;
 public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder> {
 
     private Context context;
+    private ArrayList<DiaryPage> pages = new ArrayList<>();
 
     public PageAdapter(Context context, ArrayList<DiaryPage> noteList) {
         this.context = context;
-        PageManager.getInstance().pages = noteList;
+        pages = noteList;
     }
 
     /**Empty constructor
@@ -63,7 +58,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
     @Override
     public void onBindViewHolder(@NonNull final PageViewHolder pageViewHolder, final int position) {
         //binds data to view holder
-        final DiaryPage page = PageManager.getInstance().pages.get(position);
+        final DiaryPage page = pages.get(position);
         pageViewHolder.title.setText(page.getTitle());
         pageViewHolder.bodyText.setText(page.getNoteBody());
 
@@ -81,7 +76,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
      */
     @Override
     public int getItemCount() {
-        return PageManager.getInstance().pages.size();
+        return pages.size();
         //returns size of list
     }
 
@@ -89,8 +84,8 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
      * Clears list of data
      */
     public void clear() {
-        PageManager.getInstance().pages.clear();
-        int sizeOfList = PageManager.getInstance().pages.size();
+        pages.clear();
+        int sizeOfList = pages.size();
       //  Notify any registered observers that the itemCount items previously located at positionStart have been removed from the data set.
         notifyItemRangeRemoved(0, sizeOfList);
     }
@@ -103,21 +98,20 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
      * @param position specifies the position of the diary page
      */
     private void removeItem(final int position) {
-        PageManager.getInstance().pages.remove(position);
+        pages.remove(position);
         //Notify any registered observers that the item previously located at position has been removed from the data set.
         notifyItemRemoved(position);
         //Notify any registered observers that the itemCount items starting at position positionStart have changed.
-        notifyItemRangeChanged(position, PageManager.getInstance().pages.size());
+        notifyItemRangeChanged(position, pages.size());
 
-        //TODO:delete properly
+
     }
 
 
-
     public void addItem(DiaryPage page){
-        PageManager.getInstance().pages.add(page);
+        pages.add(page);
         //Notify any registered observers that the item reflected at position has been newly inserted.
-        notifyItemInserted(PageManager.getInstance().pages.size()-1);
+        notifyItemInserted(pages.size()-1);
     }
 
     /**
@@ -142,32 +136,33 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
                 timeView.setTextColor(Color.BLACK);
                 bodyText.setTextColor(Color.BLACK);
             }
-                deleteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
-                        alertDialogBuilder.setMessage("Are you sure, You want to delete this note?");
-                        alertDialogBuilder.setPositiveButton("Yes",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface arg0, int arg1) {
-                                            removeItem(getAdapterPosition());
-                                    }
-                        });
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
+                    alertDialogBuilder.setMessage("Are you sure, You want to delete this note?");
+                    alertDialogBuilder.setPositiveButton("Yes",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                    removeItem(getAdapterPosition());
+
+                                }
+                            });
 
 
-                        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int arg0) {
-                                dialog.cancel();
-                            }
-                        });
+                    alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int arg0) {
+                            dialog.cancel();
+                        }
+                    });
 
-                        AlertDialog alertDialog = alertDialogBuilder.create();
-                        alertDialog.show();
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
 
-                    }
-                });
-            }
+                }
+            });
         }
+    }
     }
